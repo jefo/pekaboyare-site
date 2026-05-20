@@ -1,0 +1,1761 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ОПЕРАЦИЯ: ХИМЕРА — Инфографика</title>
+<link href="https://fonts.googleapis.com/css2?family=Teko:wght@300;400;500;600;700&family=Roboto+Mono:wght@300;400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ============================================
+     DESIGN TOKENS
+     ============================================ */
+  :root {
+    --bg-deep: #0a0a0a;
+    --bg-surface: #141414;
+    --bg-card: #1a1a1a;
+    --bg-elevated: #222222;
+
+    --red-danger: #e53935;
+    --red-glow: rgba(229, 57, 53, 0.15);
+    --red-border: rgba(229, 57, 53, 0.3);
+
+    --yellow-signal: #ffc107;
+    --yellow-glow: rgba(255, 193, 7, 0.12);
+    --yellow-border: rgba(255, 193, 7, 0.3);
+
+    --green-safe: #4caf50;
+    --green-glow: rgba(76, 175, 80, 0.12);
+
+    --text-white: #f5f5f5;
+    --text-body: #c0c0c0;
+    --text-muted: #666666;
+    --text-dim: #444444;
+
+    --font-display: 'Teko', sans-serif;
+    --font-mono: 'Roboto Mono', monospace;
+    --font-body: 'Inter', sans-serif;
+    --font-condensed: 'Inter', sans-serif;
+
+    --border-subtle: rgba(255, 255, 255, 0.06);
+    --border-medium: rgba(255, 255, 255, 0.1);
+  }
+
+  /* ============================================
+     RESET & BASE
+     ============================================ */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background: var(--bg-deep);
+    color: var(--text-body);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ============================================
+     TYPOGRAPHY SYSTEM
+     ============================================ */
+  .display-xl {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(3rem, 8vw, 7rem);
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    color: var(--text-white);
+  }
+
+  .display-lg {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(2rem, 5vw, 4.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    color: var(--text-white);
+  }
+
+  .display-md {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    line-height: 1;
+    text-transform: uppercase;
+    color: var(--text-white);
+  }
+
+  .label-mono {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .label-mono--danger { color: var(--red-danger); }
+  .label-mono--signal { color: var(--yellow-signal); }
+  .label-mono--safe   { color: var(--green-safe); }
+
+  .body-text {
+    font-family: var(--font-condensed);
+    font-size: 1.05rem;
+    font-weight: 400;
+    line-height: 1.65;
+    color: var(--text-body);
+    font-stretch: condensed;
+    letter-spacing: -0.01em;
+  }
+
+  .stat-number {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 4rem;
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+
+  .stat-unit {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+  }
+
+  /* ============================================
+     LAYOUT CONTAINER
+     ============================================ */
+  .infographic {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .section {
+    padding: 4rem 0;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .section:last-child { border-bottom: none; }
+
+  /* ============================================
+     SECTION 0: HERO HEADER
+     ============================================ */
+  .hero {
+    padding: 6rem 0 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -50%;
+    width: 200%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--red-danger), transparent);
+    opacity: 0.4;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.35rem 0.75rem;
+    border: 1px solid var(--red-border);
+    background: var(--red-glow);
+    margin-bottom: 2rem;
+  }
+
+  .hero-badge .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--red-danger);
+    animation: pulse-dot 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .hero-case-id {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--text-muted);
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .hero-subtitle {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: clamp(1.2rem, 3vw, 2rem);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    margin-bottom: 0.5rem;
+  }
+
+  /* ============================================
+     SECTION 1: DOSSIER / STATUS BOX
+     ============================================ */
+  .dossier-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border-medium);
+    border: 1px solid var(--border-medium);
+    margin-bottom: 2.5rem;
+  }
+
+  .dossier-cell {
+    background: var(--bg-surface);
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .dossier-value {
+    font-family: var(--font-mono);
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-white);
+  }
+
+  .dossier-value--warn  { color: var(--yellow-signal); }
+  .dossier-value--danger { color: var(--red-danger); }
+
+  .pull-quote {
+    border-left: 3px solid var(--yellow-signal);
+    padding: 1.5rem 2rem;
+    margin: 2rem 0;
+    background: var(--yellow-glow);
+    font-family: var(--font-condensed);
+    font-size: 1.2rem;
+    font-style: italic;
+    color: var(--text-white);
+    line-height: 1.5;
+    font-stretch: condensed;
+  }
+
+  .pull-quote--urgent {
+    border-left-color: var(--red-danger);
+    background: var(--red-glow);
+  }
+
+  /* ============================================
+     SECTION 2: BAQ INDEX — COST BREAKDOWN
+     ============================================ */
+  .baq-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+  }
+
+  .baq-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    margin-bottom: 2rem;
+  }
+
+  .baq-table thead th {
+    text-align: left;
+    padding: 0.75rem 1rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border-medium);
+    font-size: 0.65rem;
+  }
+
+  .baq-table thead th:last-child { text-align: right; }
+
+  .baq-table tbody td {
+    padding: 0.9rem 1rem;
+    border-bottom: 1px solid var(--border-subtle);
+    vertical-align: top;
+  }
+
+  .baq-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  .baq-table .component-name {
+    font-weight: 700;
+    color: var(--text-white);
+    font-size: 0.85rem;
+  }
+
+  .baq-table .component-origin {
+    color: var(--text-muted);
+    font-style: italic;
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+  }
+
+  .baq-table .component-price {
+    text-align: right;
+    color: var(--yellow-signal);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .baq-total-row td {
+    background: var(--red-glow) !important;
+    border-bottom: none !important;
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+  }
+
+  .baq-total-row .total-label {
+    color: var(--red-danger);
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .baq-total-row .total-value {
+    color: var(--red-danger);
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    font-weight: 700;
+    text-align: right;
+  }
+
+  /* BAQ Visual Bar */
+  .baq-visual {
+    margin: 2.5rem 0;
+    position: relative;
+  }
+
+  .baq-bar-track {
+    width: 100%;
+    height: 48px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-medium);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .baq-bar-fill {
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 1rem;
+  }
+
+  .baq-bar-fill--real {
+    width: 44%;
+    background: linear-gradient(90deg, rgba(76, 175, 80, 0.2), rgba(76, 175, 80, 0.35));
+    border-right: 2px solid var(--green-safe);
+  }
+
+  .baq-bar-fill--markup {
+    position: absolute;
+    left: 44%;
+    right: 0;
+    top: 0;
+    height: 100%;
+    background: repeating-linear-gradient(
+      -45deg,
+      rgba(229, 57, 53, 0.1),
+      rgba(229, 57, 53, 0.1) 8px,
+      rgba(229, 57, 53, 0.2) 8px,
+      rgba(229, 57, 53, 0.2) 16px
+    );
+    border-left: 2px solid var(--red-danger);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .baq-bar-label {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: var(--text-white);
+    position: absolute;
+    top: -2.2rem;
+  }
+
+  .baq-bar-label--real {
+    left: 0;
+    color: var(--green-safe);
+  }
+
+  .baq-bar-label--markup {
+    left: 44%;
+    color: var(--red-danger);
+  }
+
+  .baq-bar-label--total {
+    right: 0;
+    color: var(--text-white);
+  }
+
+  .baq-verdict {
+    text-align: center;
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+    border: 1px solid var(--red-border);
+    background: var(--red-glow);
+  }
+
+  .baq-verdict-number {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 3.5rem;
+    color: var(--red-danger);
+    line-height: 1;
+  }
+
+  /* ============================================
+     SECTION 3: DDR BANDWIDTH COMPARISON
+     ============================================ */
+  .bandwidth-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin: 2rem 0;
+  }
+
+  .bw-item {
+    display: grid;
+    grid-template-columns: 140px 1fr 80px;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .bw-label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--text-body);
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  .bw-track {
+    height: 32px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .bw-fill {
+    height: 100%;
+    transition: width 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    align-items: center;
+    padding-left: 0.75rem;
+  }
+
+  .bw-fill--red {
+    background: linear-gradient(90deg, rgba(229, 57, 53, 0.25), rgba(229, 57, 53, 0.4));
+    border-right: 2px solid var(--red-danger);
+  }
+
+  .bw-fill--yellow {
+    background: linear-gradient(90deg, rgba(255, 193, 7, 0.2), rgba(255, 193, 7, 0.35));
+    border-right: 2px solid var(--yellow-signal);
+  }
+
+  .bw-fill--green {
+    background: linear-gradient(90deg, rgba(76, 175, 80, 0.2), rgba(76, 175, 80, 0.35));
+    border-right: 2px solid var(--green-safe);
+  }
+
+  .bw-value {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--text-white);
+    text-align: left;
+  }
+
+  .bw-annotation {
+    grid-column: 1 / -1;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    padding-left: 150px;
+  }
+
+  /* ============================================
+     SECTION 4: FRAME TIME CHART (CANVAS)
+     ============================================ */
+  .chart-container {
+    position: relative;
+    margin: 2rem 0;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-medium);
+    padding: 1.5rem;
+  }
+
+  .chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+  }
+
+  .chart-canvas-wrap {
+    position: relative;
+    width: 100%;
+    height: 280px;
+  }
+
+  .chart-canvas-wrap canvas {
+    width: 100%;
+    height: 100%;
+  }
+
+  .chart-annotation {
+    position: absolute;
+    padding: 0.5rem 0.75rem;
+    background: rgba(229, 57, 53, 0.15);
+    border: 1px solid var(--red-border);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--red-danger);
+    pointer-events: none;
+  }
+
+  .chart-annotation::before {
+    content: '';
+    position: absolute;
+    left: -6px;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 3px solid transparent;
+    border-right-color: var(--red-border);
+  }
+
+  .chart-legend {
+    display: flex;
+    gap: 2rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--text-muted);
+  }
+
+  .legend-swatch {
+    width: 12px;
+    height: 3px;
+  }
+
+  /* ============================================
+     SECTION 5: COMPONENT AUTOPSY CARDS
+     ============================================ */
+  .autopsy-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border-medium);
+    border: 1px solid var(--border-medium);
+    margin: 2rem 0;
+  }
+
+  .autopsy-card {
+    background: var(--bg-surface);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .autopsy-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+  }
+
+  .autopsy-card--danger::before { background: var(--red-danger); }
+  .autopsy-card--warn::before   { background: var(--yellow-signal); }
+  .autopsy-card--hostage::before {
+    background: linear-gradient(90deg, var(--yellow-signal), var(--red-danger));
+  }
+
+  .autopsy-node {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+  }
+
+  .autopsy-category {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .autopsy-name {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.6rem;
+    color: var(--text-white);
+    text-transform: uppercase;
+    line-height: 1.1;
+  }
+
+  .autopsy-verdict {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.25rem 0.6rem;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    width: fit-content;
+  }
+
+  .autopsy-verdict--danger {
+    background: var(--red-glow);
+    border: 1px solid var(--red-border);
+    color: var(--red-danger);
+  }
+
+  .autopsy-verdict--warn {
+    background: var(--yellow-glow);
+    border: 1px solid var(--yellow-border);
+    color: var(--yellow-signal);
+  }
+
+  .autopsy-desc {
+    font-family: var(--font-condensed);
+    font-size: 0.88rem;
+    color: var(--text-body);
+    line-height: 1.55;
+    font-stretch: condensed;
+  }
+
+  .autopsy-footer {
+    grid-column: 1 / -1;
+    background: var(--bg-card);
+    padding: 1rem 1.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  /* ============================================
+     SECTION 6: HARDWARE STARVATION CONCEPT
+     ============================================ */
+  .starvation-visual {
+    margin: 2.5rem 0;
+    padding: 2rem;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-medium);
+    position: relative;
+  }
+
+  .pipeline-flow {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    margin: 2rem 0;
+    position: relative;
+  }
+
+  .pipeline-stage {
+    flex: 1;
+    padding: 1.25rem 1rem;
+    text-align: center;
+    position: relative;
+    border: 1px solid var(--border-medium);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .pipeline-stage--bottleneck {
+    flex: 0.6;
+    background: var(--red-glow);
+    border-color: var(--red-border);
+  }
+
+  .pipeline-stage--normal {
+    background: var(--bg-card);
+  }
+
+  .pipeline-stage--starved {
+    background: repeating-linear-gradient(
+      -45deg,
+      rgba(255, 193, 7, 0.05),
+      rgba(255, 193, 7, 0.05) 6px,
+      transparent 6px,
+      transparent 12px
+    );
+    border-color: var(--yellow-border);
+  }
+
+  .pipeline-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    flex-shrink: 0;
+    font-size: 1.2rem;
+    color: var(--text-dim);
+  }
+
+  .pipeline-arrow--slow {
+    color: var(--red-danger);
+  }
+
+  .pipeline-label {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .pipeline-value {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.4rem;
+    color: var(--text-white);
+    line-height: 1;
+  }
+
+  .pipeline-value--danger { color: var(--red-danger); }
+  .pipeline-value--warn   { color: var(--yellow-signal); }
+
+  .gpu-util-bar {
+    margin: 2rem 0 1rem;
+    position: relative;
+  }
+
+  .util-track {
+    width: 100%;
+    height: 40px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-medium);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .util-fill {
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: width 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .util-fill--active {
+    width: 45%;
+    background: linear-gradient(90deg, rgba(255, 193, 7, 0.3), rgba(255, 193, 7, 0.5));
+    border-right: 3px solid var(--yellow-signal);
+  }
+
+  .util-fill--wasted {
+    position: absolute;
+    left: 45%;
+    right: 0;
+    top: 0;
+    height: 100%;
+    background: repeating-linear-gradient(
+      -45deg,
+      rgba(229, 57, 53, 0.08),
+      rgba(229, 57, 53, 0.08) 6px,
+      rgba(229, 57, 53, 0.15) 6px,
+      rgba(229, 57, 53, 0.15) 12px
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--red-danger);
+    letter-spacing: 0.1em;
+  }
+
+  .util-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+  }
+
+  /* ============================================
+     SECTION 7: PLATFORM COMPARISON TABLE
+     ============================================ */
+  .comparison-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    margin: 2rem 0;
+  }
+
+  .comparison-table thead th {
+    padding: 0.75rem 1rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    border-bottom: 2px solid var(--border-medium);
+    font-size: 0.65rem;
+    text-align: left;
+  }
+
+  .comparison-table thead th:first-child {
+    width: 25%;
+  }
+
+  .comparison-table tbody td {
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid var(--border-subtle);
+    vertical-align: middle;
+  }
+
+  .comparison-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.015);
+  }
+
+  .comparison-table .param-label {
+    color: var(--text-muted);
+    font-weight: 400;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .comparison-table .chimera-value {
+    color: var(--red-danger);
+    font-weight: 500;
+  }
+
+  .comparison-table .target-value {
+    color: var(--green-safe);
+    font-weight: 500;
+  }
+
+  .comparison-table .danger-indicator {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background: var(--red-danger);
+    border-radius: 50%;
+    margin-right: 0.5rem;
+    vertical-align: middle;
+  }
+
+  /* ============================================
+     SECTION 8: THE SENTENCE / VERDICT
+     ============================================ */
+  .verdict-block {
+    text-align: center;
+    padding: 4rem 2rem;
+    position: relative;
+    border: 2px solid var(--red-border);
+    background: var(--red-glow);
+    margin: 3rem 0;
+  }
+
+  .verdict-block::before {
+    content: '// ПРИГОВОР';
+    position: absolute;
+    top: -0.6rem;
+    left: 2rem;
+    background: var(--bg-deep);
+    padding: 0 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: var(--red-danger);
+    text-transform: uppercase;
+  }
+
+  .verdict-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(2rem, 6vw, 4.5rem);
+    color: var(--red-danger);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    line-height: 0.9;
+    margin-bottom: 1.5rem;
+  }
+
+  /* ============================================
+     SECTION 9: ANTIDOTE — OPTIMAL BUILD
+     ============================================ */
+  .antidote-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    margin: 2rem 0;
+  }
+
+  .antidote-table thead th {
+    text-align: left;
+    padding: 0.75rem 1rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border-medium);
+    font-size: 0.65rem;
+  }
+
+  .antidote-table thead th:last-child { text-align: right; }
+
+  .antidote-table tbody td {
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .antidote-table .antidote-component {
+    font-weight: 700;
+    color: var(--text-white);
+  }
+
+  .antidote-table .antidote-model {
+    color: var(--text-body);
+    font-family: var(--font-body);
+    font-size: 0.82rem;
+  }
+
+  .antidote-table .antidote-price {
+    text-align: right;
+    color: var(--green-safe);
+    font-weight: 500;
+  }
+
+  .antidote-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    margin-top: 1rem;
+    border: 1px solid var(--green-safe);
+    background: var(--green-glow);
+  }
+
+  .antidote-total-label {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--green-safe);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .antidote-total-value {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--green-safe);
+  }
+
+  /* ============================================
+     FOOTER
+     ============================================ */
+  .infographic-footer {
+    padding: 3rem 0;
+    text-align: center;
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .footer-stamp {
+    font-family: var(--font-display);
+    font-weight: 300;
+    font-size: 1.2rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.5em;
+    opacity: 0.5;
+  }
+
+  /* ============================================
+     DIVIDER
+     ============================================ */
+  .brutal-divider {
+    width: 100%;
+    height: 1px;
+    background: var(--border-medium);
+    margin: 0;
+    position: relative;
+  }
+
+  .brutal-divider::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    background: var(--bg-deep);
+    border: 1px solid var(--text-dim);
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+
+  /* ============================================
+     RESPONSIVE
+     ============================================ */
+  @media (max-width: 700px) {
+    .dossier-grid { grid-template-columns: 1fr; }
+    .autopsy-grid { grid-template-columns: 1fr; }
+    .bw-item { grid-template-columns: 100px 1fr 60px; }
+    .bw-annotation { padding-left: 106px; }
+    .pipeline-flow { flex-direction: column; }
+    .pipeline-arrow { transform: rotate(90deg); height: 30px; width: auto; }
+    .baq-bar-label { font-size: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="infographic">
+
+  <!-- ==========================================
+       SECTION 0: HERO
+       ========================================== -->
+  <section class="hero section">
+    <div class="hero-badge">
+      <span class="dot"></span>
+      <span class="label-mono label-mono--danger">Расследование активно</span>
+    </div>
+
+    <div class="hero-subtitle">Техно-расследование</div>
+    <h1 class="display-xl" style="margin-bottom: 1.5rem;">
+      Операция:<br><span style="color: var(--red-danger);">Химера</span>
+    </h1>
+
+    <p class="body-text" style="max-width: 600px; margin-bottom: 2rem;">
+      Разоблачаем «Игровой ПК 2026» за 75 000&nbsp;₽. Вскрываем корпус и&nbsp;находим технологии из&nbsp;эпохи кнопочных телефонов, обмотанные RGB-лентой.
+    </p>
+
+    <div class="hero-case-id">
+      КЕЙС #104&nbsp;&nbsp;//&nbsp;&nbsp;СТАТУС: АКТИВНО&nbsp;&nbsp;//&nbsp;&nbsp;ОБЪЕКТ: «Игровой ПК» с маркетплейса&nbsp;&nbsp;//&nbsp;&nbsp;ПОДОЗРЕВАЕМЫЙ: LGA2011 Frankenstein
+    </div>
+  </section>
+
+  <!-- ==========================================
+       SECTION 1: DOSSIER
+       ========================================== -->
+  <section class="section">
+    <div class="label-mono" style="margin-bottom: 1.5rem;">КЕЙС #104&nbsp;&nbsp;//&nbsp;&nbsp;ВВОДНЫЕ ДАННЫЕ</div>
+
+    <div class="dossier-grid">
+      <div class="dossier-cell">
+        <span class="label-mono">Статус</span>
+        <span class="dossier-value">АКТИВНО</span>
+      </div>
+      <div class="dossier-cell">
+        <span class="label-mono">Объект</span>
+        <span class="dossier-value">«Игровой ПК» с маркетплейса</span>
+      </div>
+      <div class="dossier-cell">
+        <span class="label-mono">Заявленная цена</span>
+        <span class="dossier-value dossier-value--warn">75 000 ₽</span>
+      </div>
+      <div class="dossier-cell">
+        <span class="label-mono">Подозреваемый</span>
+        <span class="dossier-value dossier-value--danger">LGA2011 Frankenstein</span>
+      </div>
+    </div>
+
+    <div class="pull-quote">
+      Надеваем перчатки. Начинаем аутопсию.
+    </div>
+  </section>
+
+  <!-- ==========================================
+       SECTION 2: BAQ INDEX
+       ========================================== -->
+  <section class="section">
+    <div class="label-mono label-mono--signal" style="margin-bottom: 0.75rem;">Финансовая Аутопсия</div>
+    <div class="baq-header">
+      <h2 class="display-lg">Индекс BAQ</h2>
+      <span class="label-mono" style="color: var(--text-muted);">// Чистая наценка за «светящиеся вентиляторы»</span>
+    </div>
+
+    <table class="baq-table">
+      <thead>
+        <tr>
+          <th>Компонент</th>
+          <th>Происхождение</th>
+          <th>Реальная цена</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="component-name">Xeon E5-2650 v2</td>
+          <td class="component-origin">Электронные отходы (Китай)</td>
+          <td class="component-price">~500 ₽</td>
+        </tr>
+        <tr>
+          <td class="component-name">Мат. плата X79</td>
+          <td class="component-origin">Подвальная пайка (Китай)</td>
+          <td class="component-price">~3 000 ₽</td>
+        </tr>
+        <tr>
+          <td class="component-name">ОЗУ 16GB DDR3</td>
+          <td class="component-origin">Списанные серверы (Б/У)</td>
+          <td class="component-price">~1 000 ₽</td>
+        </tr>
+        <tr>
+          <td class="component-name">RTX 3060 12GB</td>
+          <td class="component-origin">После майнинга (Б/У)</td>
+          <td class="component-price">~22 000 ₽</td>
+        </tr>
+        <tr>
+          <td class="component-name">Корпус + БП + SSD</td>
+          <td class="component-origin">Самый дешёвый масс-маркет</td>
+          <td class="component-price">~6 500 ₽</td>
+        </tr>
+        <tr class="baq-total-row">
+          <td colspan="2" class="total-label">Объективная стоимость:</td>
+          <td class="total-value">~33 000 ₽</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Visual Bar -->
+    <div class="baq-visual">
+      <div style="position: relative; height: 2.5rem;">
+        <span class="baq-bar-label baq-bar-label--real">33 000 ₽</span>
+        <span class="baq-bar-label baq-bar-label--markup" style="position: absolute; transform: translateX(-50%);">+42 000 ₽</span>
+        <span class="baq-bar-label baq-bar-label--total">75 000 ₽</span>
+      </div>
+      <div class="baq-bar-track">
+        <div class="baq-bar-fill baq-bar-fill--real">
+          <span style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--green-safe); font-weight: 500;">44%</span>
+        </div>
+        <div class="baq-bar-fill baq-bar-fill--markup">
+          <span style="font-family: var(--font-display); font-size: 1.6rem; color: var(--red-danger); font-weight: 700;">НАЛОГ НА БЕЗГРАМОТНОСТЬ</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="baq-verdict">
+      <div class="label-mono label-mono--danger" style="margin-bottom: 0.5rem;">Коэффициент BAQ</div>
+      <div class="baq-verdict-number">0.44</div>
+      <div class="label-mono label-mono--danger" style="margin-top: 0.5rem;">КРИТИЧЕСКИЙ — Огромная маржа за счёт e-waste</div>
+    </div>
+
+    <div class="pull-quote pull-quote--urgent" style="margin-top: 2rem;">
+      Вы платите 75 000&nbsp;₽ за железо ценой в&nbsp;33 000&nbsp;₽. 42 000&nbsp;₽&nbsp;— налог на безграмотность.
+    </div>
+  </section>
+
+  <!-- ==========================================
+       SECTION 3: DDR BANDWIDTH
+       ========================================== -->
+  <section class="section">
+    <div class="label-mono" style="margin-bottom: 0.75rem;">Улика 012&nbsp;&nbsp;//&nbsp;&nbsp;Анализ задержек</div>
+    <h2 class="display-lg" style="margin-bottom: 0.5rem;">Узкое Горло: Память</h2>
+    <p class="body-text" style="max-width: 600px; margin-bottom: 0.5rem;">
+      В объявлении: <em style="color: var(--text-muted);">«современный тип памяти»</em>. В&nbsp;реальности&nbsp;— серверная DDR3-1600. Задержки <span style="color: var(--red-danger); font-weight: 600;">70–80 наносекунд</span> убивают плавность.
+    </p>
+
+    <div class="bandwidth-bars">
+      <div class="bw-item">
+        <span class="bw-label">DDR3-1600<br><span style="color: var(--red-danger); font-size: 0.6rem;">ХИМЕРА</span></span>
+        <div class="bw-track">
+          <div class="bw-fill bw-fill--red" style="width: 26%;"></div>
+        </div>
+        <span class="bw-value" style="color: var(--red-danger);">12.8</span>
+      </div>
+      <div class="bw-item">
+        <span class="bw-label">DDR4-3200<br><span style="color: var(--yellow-signal); font-size: 0.6rem;">СТАНДАРТ</span></span>
+        <div class="bw-track">
+          <div class="bw-fill bw-fill--yellow" style="width: 53%;"></div>
+        </div>
+        <span class="bw-value" style="color: var(--yellow-signal);">25.6</span>
+      </div>
+      <div class="bw-item">
+        <span class="bw-label">DDR5-6000<br><span style="color: var(--green-safe); font-size: 0.6rem;">НОРМА</span></span>
+        <div class="bw-track">
+          <div class="bw-fill bw-fill--green" style="width: 100%;"></div>
+        </div>
+        <span class="bw-value" style="color: var(--green-safe);">48.0</span>
+      </div>
+      <div class="bw-annotation">Гбит/с&nbsp;&nbsp;//&nbsp;&nbsp;DDR3 отстаёт от DDR5 в 3.75 раза</div>
+    </div>
+
+    <div style="padding: 1rem 1.25rem; background: var(--bg-surface); border-left: 2px solid var(--yellow-signal); margin-top: 1.5rem;">
+      <span class="label-mono label-mono--signal">АНАЛИЗ:</span>
+      <span class="body-text" style="font-size: 0.9rem;">
+        Игра дергается не&nbsp;потому, что видеокарте не&nbsp;хватает мощности, а&nbsp;потому что геометрия уровня приходит из&nbsp;памяти с&nbsp;фатальным опозданием.
+      </span>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       SECTION 4: FRAME TIME CHART
+       ========================================== -->
+  <section class="section">
+    <div class="label-mono" style="margin-bottom: 0.75rem;">Лабораторная улика 001&nbsp;&nbsp;//&nbsp;&nbsp;Фреймтайм</div>
+    <h2 class="display-lg" style="margin-bottom: 0.5rem;">Кардиограмма Смерти</h2>
+    <p class="body-text" style="max-width: 600px; margin-bottom: 0.5rem;">
+      Средний FPS всегда врёт. Мы&nbsp;сняли график времени кадра. Система ловит <span style="color: var(--red-danger); font-weight: 600;">инфаркт</span> в&nbsp;критический момент: выстрел, взрыв, резкий разворот.
+    </p>
+
+    <div class="chart-container">
+      <div class="chart-header">
+        <div>
+          <div class="label-mono">Фреймтайм // Cyberpunk 2077 1080p Ultra</div>
+          <div style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-muted); margin-top: 0.25rem;">Xeon E5-2650 v2 + RTX 3060 12GB + DDR3-1600</div>
+        </div>
+        <div style="text-align: right;">
+          <div class="label-mono">1% LOW</div>
+          <div style="font-family: var(--font-display); font-size: 2rem; font-weight: 700; color: var(--red-danger); line-height: 1;">14 FPS</div>
+        </div>
+      </div>
+
+      <div class="chart-canvas-wrap">
+        <canvas id="frametimeChart"></canvas>
+        <div class="chart-annotation" style="right: 18%; top: 55%;">
+          <div style="font-weight: 700; font-size: 0.8rem; margin-bottom: 0.15rem;">ИНФАРКТ</div>
+          <div>1% Low: 14 FPS</div>
+          <div style="font-size: 0.6rem; color: var(--text-muted); margin-top: 0.15rem;">Взрыв гранаты / резкий разворот</div>
+        </div>
+      </div>
+
+      <div class="chart-legend">
+        <div class="legend-item">
+          <span class="legend-swatch" style="background: var(--yellow-signal);"></span>
+          Средний FPS (~50)
+        </div>
+        <div class="legend-item">
+          <span class="legend-swatch" style="background: var(--red-danger);"></span>
+          1% Low (14 FPS)
+        </div>
+        <div class="legend-item">
+          <span class="legend-swatch" style="background: var(--text-dim);"></span>
+          Порог играбельности (30)
+        </div>
+      </div>
+    </div>
+
+    <div style="padding: 1.5rem; background: var(--bg-surface); border-left: 2px solid var(--red-danger); margin-top: 1.5rem;">
+      <p class="body-text" style="font-size: 0.95rem; margin-bottom: 0.75rem;">
+        Посмотрите на провалы. Система захлёбывается в&nbsp;критический момент геймплея: выстрел, взрыв гранаты, резкий разворот камеры. Процессору нужно срочно достать новые ассеты. Ожидание растягивается на вечность.
+      </p>
+      <p class="body-text" style="font-size: 0.95rem;">
+        <span style="color: var(--red-danger); font-weight: 600;">1% Low падает до&nbsp;14 кадров.</span> Картинка замирает на&nbsp;долю секунды. Вы нажимаете на&nbsp;курок, но&nbsp;игра стоит. В&nbsp;следующую секунду вы уже труп.
+      </p>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       SECTION 5: COMPONENT AUTOPSY
+       ========================================== -->
+  <section class="section">
+    <div class="label-mono" style="margin-bottom: 0.75rem;">Вскрытие&nbsp;&nbsp;//&nbsp;&nbsp;Узлы Франкенштейна</div>
+    <h2 class="display-lg" style="margin-bottom: 0.5rem;">Аутопсия</h2>
+    <p class="body-text" style="max-width: 550px; margin-bottom: 0.5rem;">
+      Монстр, сшитый из&nbsp;несовместимых эпох. Серверные потроха 2013-го в&nbsp;новом китайском корпусе.
+    </p>
+
+    <div class="autopsy-grid">
+      <div class="autopsy-card autopsy-card--danger">
+        <span class="autopsy-node">УЗЕЛ A</span>
+        <span class="autopsy-category">ЦПУ&nbsp;&nbsp;//&nbsp;&nbsp;Архитектура 2013 г.</span>
+        <span class="autopsy-name">Intel Xeon<br>E5-2650 v2</span>
+        <span class="autopsy-verdict autopsy-verdict--danger">Архаичный артефакт</span>
+        <p class="autopsy-desc">Спроектирован для баз данных, а&nbsp;не&nbsp;для Cyberpunk. Восемь ядер&nbsp;— медленные, неповоротливые ядра из&nbsp;прошлого. <span style="color: var(--red-danger);">IPC катастрофически низок.</span></p>
+      </div>
+
+      <div class="autopsy-card autopsy-card--hostage">
+        <span class="autopsy-node">УЗЕЛ B</span>
+        <span class="autopsy-category">ГПУ&nbsp;&nbsp;//&nbsp;&nbsp;Современный раб</span>
+        <span class="autopsy-name">NVIDIA RTX<br>3060 12 ГБ</span>
+        <span class="autopsy-verdict autopsy-verdict--warn">В заложниках</span>
+        <p class="autopsy-desc">Единственный живой орган. Работает вполсилы, ожидая приказов от&nbsp;древнего процессора. <span style="color: var(--yellow-signal);">Hardware Starvation</span> в&nbsp;чистом виде.</p>
+      </div>
+
+      <div class="autopsy-card autopsy-card--danger">
+        <span class="autopsy-node">УЗЕЛ C</span>
+        <span class="autopsy-category">Память&nbsp;&nbsp;//&nbsp;&nbsp;Узкое горло</span>
+        <span class="autopsy-name">16 ГБ<br>DDR3-1600 ECC</span>
+        <span class="autopsy-verdict autopsy-verdict--danger">Серверная свалка</span>
+        <p class="autopsy-desc">Стандарт 2012 года. Попытка заправить болид Формулы-1 через соломинку. <span style="color: var(--red-danger);">Задержки убивают плавность.</span></p>
+      </div>
+
+      <div class="autopsy-card autopsy-card--danger">
+        <span class="autopsy-node">УЗЕЛ D</span>
+        <span class="autopsy-category">Питание&nbsp;&nbsp;//&nbsp;&nbsp;Зона риска</span>
+        <span class="autopsy-name">Generic<br>500W</span>
+        <span class="autopsy-verdict autopsy-verdict--danger">Бикфордов шнур</span>
+        <p class="autopsy-desc">Без сертификата и&nbsp;имени. Каждая минута работы&nbsp;— <span style="color: var(--red-danger);">риск короткого замыкания</span>.</p>
+      </div>
+
+      <div class="autopsy-footer">
+        // Общий износ архитектуры: ФАТАЛЬНЫЙ&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;Потенциал апгрейда: НУЛЕВОЙ
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       SECTION 6: HARDWARE STARVATION
+       ========================================== -->
+  <section class="section">
+    <div class="label-mono label-mono--danger" style="margin-bottom: 0.75rem;">Системный анализ&nbsp;&nbsp;//&nbsp;&nbsp;Аппаратное Голодание</div>
+    <h2 class="display-lg" style="margin-bottom: 0.5rem;">Hardware Starvation</h2>
+    <p class="body-text" style="max-width: 600px; margin-bottom: 0.5rem;">
+      Чтобы RTX 3060 нарисовала кадр, процессор должен отдать приказ (Draw Call). Древний Xeon физически не&nbsp;успевает. <span style="color: var(--red-danger); font-weight: 600;">Видеокарта спит.</span>
+    </p>
+
+    <div class="starvation-visual">
+      <div class="label-mono" style="margin-bottom: 1rem;">Конвейер отрисовки кадра</div>
+
+      <div class="pipeline-flow">
+        <div class="pipeline-stage pipeline-stage--bottleneck">
+          <span class="pipeline-label">ЦПУ</span>
+          <span class="pipeline-value pipeline-value--danger">XEON</span>
+          <span style="font-family: var(--font-mono); font-size: 0.55rem; color: var(--red-danger); letter-spacing: 0.1em;">2013 / LOW IPC</span>
+        </div>
+        <div class="pipeline-arrow pipeline-arrow--slow">&#10132;</div>
+        <div class="pipeline-stage pipeline-stage--normal">
+          <span class="pipeline-label">ШИНА</span>
+          <span class="pipeline-value">DDR3</span>
+          <span style="font-family: var(--font-mono); font-size: 0.55rem; color: var(--text-muted); letter-spacing: 0.1em;">12.8 Гбит/с</span>
+        </div>
+        <div class="pipeline-arrow pipeline-arrow--slow">&#10132;</div>
+        <div class="pipeline-stage pipeline-stage--normal">
+          <span class="pipeline-label">PCIe</span>
+          <span class="pipeline-value">3.0</span>
+          <span style="font-family: var(--font-mono); font-size: 0.55rem; color: var(--text-muted); letter-spacing: 0.1em;">ЗАТЫК ТРАФИКА</span>
+        </div>
+        <div class="pipeline-arrow pipeline-arrow--slow">&#10132;</div>
+        <div class="pipeline-stage pipeline-stage--starved">
+          <span class="pipeline-label">ГПУ</span>
+          <span class="pipeline-value pipeline-value--warn">RTX 3060</span>
+          <span style="font-family: var(--font-mono); font-size: 0.55rem; color: var(--yellow-signal); letter-spacing: 0.1em;">ПРОСТАИВАЕТ</span>
+        </div>
+      </div>
+
+      <div class="label-mono" style="margin-top: 2rem; margin-bottom: 0.75rem;">Загрузка GPU (реальная vs заявленная)</div>
+
+      <div class="gpu-util-bar">
+        <div class="util-track">
+          <div class="util-fill util-fill--active">
+            <span style="font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; color: var(--yellow-signal);">45%</span>
+          </div>
+          <div class="util-fill util-fill--wasted">
+            <span style="font-family: var(--font-display); font-size: 1.2rem; font-weight: 600; color: var(--red-danger); opacity: 0.7;">ПРОСТОЙ — GPU ЖДЁТ ЦПУ</span>
+          </div>
+        </div>
+        <div class="util-labels">
+          <span class="label-mono">0%</span>
+          <span class="label-mono" style="color: var(--yellow-signal);">45% — реальная загрузка</span>
+          <span class="label-mono">100%</span>
+        </div>
+      </div>
+
+      <div style="text-align: center; margin-top: 1.5rem; padding: 1rem; border: 1px dashed var(--red-border); background: var(--red-glow);">
+        <span class="label-mono label-mono--danger" style="font-size: 0.75rem;">
+          RTX 3060 работает на&nbsp;40–50% мощности&nbsp;— это не&nbsp;игровая сборка, это захват заложника
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       SECTION 7: PLATFORM COMPARISON
+       ========================================== -->
+  <section class="section">
+    <div class="label-mono" style="margin-bottom: 0.75rem;">Сводный отчёт</div>
+    <h2 class="display-lg" style="margin-bottom: 0.5rem;">Тактико-Технический Разрыв</h2>
+    <p class="body-text" style="max-width: 500px; margin-bottom: 0.5rem;">
+      Почему «Химера»&nbsp;— это тупик.
+    </p>
+
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>Параметр</th>
+          <th>Химера (LGA2011)</th>
+          <th>Цель (AM5)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="param-label">Платформа</td>
+          <td class="chimera-value"><span class="danger-indicator"></span>LGA2011 (2012, Мертва)</td>
+          <td class="target-value">AM5 (2022, До 2027+)</td>
+        </tr>
+        <tr>
+          <td class="param-label">Архитектура ЦПУ</td>
+          <td class="chimera-value"><span class="danger-indicator"></span>Ivy Bridge-EP (22 нм)</td>
+          <td class="target-value">Zen 4 (5 нм)</td>
+        </tr>
+        <tr>
+          <td class="param-label">Тип памяти</td>
+          <td class="chimera-value"><span class="danger-indicator"></span>DDR3 (Latency &gt; 80ns)</td>
+          <td class="target-value">DDR5 (Latency &lt; 65ns)</td>
+        </tr>
+        <tr>
+          <td class="param-label">Шина PCIe</td>
+          <td class="chimera-value"><span class="danger-indicator"></span>3.0 (Затык трафика)</td>
+          <td class="target-value">5.0 (Запас мощности)</td>
+        </tr>
+        <tr>
+          <td class="param-label">Энергоэффективность</td>
+          <td class="chimera-value"><span class="danger-indicator"></span>350 Вт // ~65% БП</td>
+          <td class="target-value">280 Вт // 80+ Gold</td>
+        </tr>
+        <tr>
+          <td class="param-label">Потенциал апгрейда</td>
+          <td class="chimera-value"><span class="danger-indicator"></span>НУЛЕВОЙ (тупик ветки)</td>
+          <td class="target-value">ВЫСОКИЙ (AM5 до 2027+)</td>
+        </tr>
+        <tr>
+          <td class="param-label">Индекс BAQ</td>
+          <td class="chimera-value"><span class="danger-indicator"></span>0.44 (Критический)</td>
+          <td class="target-value">0.92 (Оптимальный)</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- ==========================================
+       SECTION 8: VERDICT
+       ========================================== -->
+  <section class="section">
+    <div class="verdict-block">
+      <div class="verdict-title">Технологический<br>Тупик</div>
+      <p class="body-text" style="max-width: 550px; margin: 0 auto 1rem;">
+        Попытка соединить технологии с&nbsp;разницей в&nbsp;десятилетие приводит к&nbsp;тому, что вы платите за&nbsp;RTX 3060, а&nbsp;получаете <span style="color: var(--red-danger); font-weight: 600;">производительность GTX 1060</span> из-за чудовищного процессорного упора.
+      </p>
+      <p class="body-text" style="max-width: 550px; margin: 0 auto;">
+        Инвестиции в&nbsp;модернизацию нецелесообразны. Каждая вложенная копейка&nbsp;— деньги, выброшенные на&nbsp;ветер. Покупая это, вы спонсируете обман.
+      </p>
+    </div>
+  </section>
+
+  <!-- ==========================================
+       SECTION 9: ANTIDOTE
+       ========================================== -->
+  <section class="section">
+    <div class="label-mono label-mono--safe" style="margin-bottom: 0.75rem;">Путь искупления</div>
+    <h2 class="display-lg" style="margin-bottom: 0.5rem;">Антидот</h2>
+    <p class="body-text" style="max-width: 600px; margin-bottom: 0.5rem;">
+      За&nbsp;те&nbsp;же 75 000 рублей собирается современная платформа на&nbsp;AM5 с&nbsp;новой памятью DDR5 и&nbsp;честной гарантией на&nbsp;каждый узел.
+    </p>
+
+    <table class="antidote-table">
+      <thead>
+        <tr>
+          <th>Компонент</th>
+          <th>Модель</th>
+          <th>Цена</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="antidote-component">Процессор</td>
+          <td class="antidote-model">AMD Ryzen 5 7500F OEM</td>
+          <td class="antidote-price">11 500 ₽</td>
+        </tr>
+        <tr>
+          <td class="antidote-component">Мат. плата</td>
+          <td class="antidote-model">ASRock B650M PG Lightning (mATX)</td>
+          <td class="antidote-price">13 000 ₽</td>
+        </tr>
+        <tr>
+          <td class="antidote-component">ОЗУ</td>
+          <td class="antidote-model">ADATA XPG Lancer Blade 16GB (2×8GB) DDR5 6000MHz CL30</td>
+          <td class="antidote-price">8 000 ₽</td>
+        </tr>
+        <tr>
+          <td class="antidote-component">Видеокарта</td>
+          <td class="antidote-model">Intel Arc B570 10GB Battlemage</td>
+          <td class="antidote-price">26 500 ₽</td>
+        </tr>
+        <tr>
+          <td class="antidote-component">SSD</td>
+          <td class="antidote-model">ADATA Legend 800 1TB NVMe PCIe 4.0</td>
+          <td class="antidote-price">7 500 ₽</td>
+        </tr>
+        <tr>
+          <td class="antidote-component">БП</td>
+          <td class="antidote-model">Deepcool PK600D 600W 80+ Bronze</td>
+          <td class="antidote-price">6 500 ₽</td>
+        </tr>
+        <tr>
+          <td class="antidote-component">Корпус</td>
+          <td class="antidote-model">Powercase Mistral Micro Z3 Mesh LED</td>
+          <td class="antidote-price">4 500 ₽</td>
+        </tr>
+        <tr>
+          <td class="antidote-component">Кулер</td>
+          <td class="antidote-model">ID-Cooling SE-214-XT ARGB</td>
+          <td class="antidote-price">2 500 ₽</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="antidote-total">
+      <span class="antidote-total-label">Платформа AM5&nbsp;&nbsp;//&nbsp;&nbsp;Итого</span>
+      <span class="antidote-total-value">76 000 ₽</span>
+    </div>
+
+    <div style="text-align: center; margin-top: 2.5rem;">
+      <span class="footer-stamp">// Дело закрыто.</span>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="infographic-footer">
+    <span class="footer-stamp">Операция: Химера&nbsp;&nbsp;//&nbsp;&nbsp;Кейс #104</span>
+  </footer>
+
+</div>
+
+<!-- ==========================================
+     FRAME TIME CHART — Canvas rendering
+     ========================================== -->
+<script>
+(function() {
+  const canvas = document.getElementById('frametimeChart');
+  if (!canvas) return;
+
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+
+  function resize() {
+    const rect = canvas.parentElement.getBoundingClientRect();
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    canvas.style.width = rect.width + 'px';
+    canvas.style.height = rect.height + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    draw();
+  }
+
+  // Generate frame time data (simulated)
+  function generateData() {
+    const points = 120;
+    const data = [];
+    const baseLine = 50; // avg FPS
+    const events = [
+      { at: 25, severity: 0.7 },  // minor dip
+      { at: 50, severity: 1.0 },  // major infarct
+      { at: 72, severity: 0.8 },  // explosion
+      { at: 95, severity: 0.6 },  // camera turn
+    ];
+
+    for (let i = 0; i < points; i++) {
+      let fps = baseLine + (Math.random() - 0.5) * 8;
+
+      // Apply event dips
+      for (const ev of events) {
+        const dist = Math.abs(i - ev.at);
+        if (dist < 5) {
+          const impact = ev.severity * (1 - dist / 5);
+          fps -= impact * 38; // drop to ~12-14 FPS
+        }
+      }
+
+      data.push(Math.max(8, Math.min(65, fps)));
+    }
+    return data;
+  }
+
+  const data = generateData();
+
+  function draw() {
+    const w = canvas.width / dpr;
+    const h = canvas.height / dpr;
+
+    ctx.clearRect(0, 0, w, h);
+
+    // Background grid
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.03)';
+    ctx.lineWidth = 1;
+    for (let y = 0; y < h; y += h / 6) {
+      ctx.beginPath();
+      ctx.moveTo(0, y);
+      ctx.lineTo(w, y);
+      ctx.stroke();
+    }
+
+    // Threshold line at 30 FPS
+    const thresholdY = h - (30 / 65) * h;
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
+    ctx.setLineDash([4, 4]);
+    ctx.beginPath();
+    ctx.moveTo(0, thresholdY);
+    ctx.lineTo(w, thresholdY);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Threshold label
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.2)';
+    ctx.font = '500 9px "Roboto Mono", monospace';
+    ctx.textAlign = 'left';
+    ctx.fillText('30 FPS — ПОРОГ', 4, thresholdY - 4);
+
+    // Average line at 50 FPS
+    const avgY = h - (50 / 65) * h;
+    ctx.strokeStyle = 'rgba(255, 193, 7, 0.2)';
+    ctx.setLineDash([6, 4]);
+    ctx.beginPath();
+    ctx.moveTo(0, avgY);
+    ctx.lineTo(w, avgY);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    ctx.fillStyle = 'rgba(255, 193, 7, 0.35)';
+    ctx.fillText('~50 FPS — СРЕДНИЙ', 4, avgY - 4);
+
+    // Draw the frame time area fill
+    const step = w / (data.length - 1);
+
+    ctx.beginPath();
+    ctx.moveTo(0, h);
+    for (let i = 0; i < data.length; i++) {
+      const x = i * step;
+      const y = h - (data[i] / 65) * h;
+      if (i === 0) ctx.lineTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.lineTo(w, h);
+    ctx.closePath();
+
+    const gradient = ctx.createLinearGradient(0, 0, 0, h);
+    gradient.addColorStop(0, 'rgba(255, 193, 7, 0.12)');
+    gradient.addColorStop(0.5, 'rgba(229, 57, 53, 0.08)');
+    gradient.addColorStop(1, 'rgba(229, 57, 53, 0.02)');
+    ctx.fillStyle = gradient;
+    ctx.fill();
+
+    // Draw the line
+    ctx.beginPath();
+    for (let i = 0; i < data.length; i++) {
+      const x = i * step;
+      const y = h - (data[i] / 65) * h;
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+
+    const lineGrad = ctx.createLinearGradient(0, 0, w, 0);
+    lineGrad.addColorStop(0, '#ffc107');
+    lineGrad.addColorStop(0.4, '#ffc107');
+    lineGrad.addColorStop(0.5, '#e53935');
+    lineGrad.addColorStop(0.65, '#ffc107');
+    lineGrad.addColorStop(0.8, '#e53935');
+    lineGrad.addColorStop(1, '#ffc107');
+
+    ctx.strokeStyle = lineGrad;
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+
+    // Highlight infarct zones with red glow
+    const infarctZones = [
+      { start: 47, end: 55, label: '' },
+      { start: 69, end: 76, label: '' },
+    ];
+
+    for (const zone of infarctZones) {
+      const x1 = zone.start * step;
+      const x2 = zone.end * step;
+
+      ctx.fillStyle = 'rgba(229, 57, 53, 0.06)';
+      ctx.fillRect(x1, 0, x2 - x1, h);
+
+      // Red dots at minimum
+      let minFPS = 65;
+      let minX = 0;
+      for (let i = zone.start; i <= zone.end && i < data.length; i++) {
+        if (data[i] < minFPS) {
+          minFPS = data[i];
+          minX = i * step;
+        }
+      }
+
+      const minY = h - (minFPS / 65) * h;
+
+      ctx.beginPath();
+      ctx.arc(minX, minY, 4, 0, Math.PI * 2);
+      ctx.fillStyle = '#e53935';
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.arc(minX, minY, 8, 0, Math.PI * 2);
+      ctx.strokeStyle = 'rgba(229, 57, 53, 0.3)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+
+    // X-axis labels
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
+    ctx.font = '400 8px "Roboto Mono", monospace';
+    ctx.textAlign = 'center';
+    for (let i = 0; i <= 12; i++) {
+      const x = (i / 12) * w;
+      ctx.fillText((i * 10) + 's', x, h - 4);
+    }
+
+    // Y-axis labels
+    ctx.textAlign = 'right';
+    for (let fps = 10; fps <= 60; fps += 10) {
+      const y = h - (fps / 65) * h;
+      ctx.fillText(fps + '', 24, y + 3);
+    }
+  }
+
+  resize();
+  window.addEventListener('resize', resize);
+})();
+</script>
+
+</body>
+</html>
