@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RTX 4060 Ti 16GB — Hero (Junior Pass)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;700&family=Inter:ital,wght@0,400;0,700;1,400&family=PT+Serif:ital@0;1&family=Teko:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --font-telemetry: 'IBM Plex Mono', 'Roboto Mono', monospace;
+    --font-industrial: 'Teko', sans-serif;
+    --color-accent: #8060e0;
+    --color-gaming: #e8a040;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #080a0c;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* ═══════ ATMOSPHERE ═══════ */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0;
+    background-image:
+      linear-gradient(rgba(128,96,224,0.010) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(128,96,224,0.010) 1px, transparent 1px),
+      linear-gradient(rgba(128,96,224,0.016) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(128,96,224,0.016) 1px, transparent 1px),
+      linear-gradient(rgba(128,96,224,0.005) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(128,96,224,0.005) 1px, transparent 1px);
+    background-size: 64px 64px, 64px 64px, 16px 16px, 16px 16px, 8px 8px, 8px 8px;
+    pointer-events: none;
+  }
+  body::after {
+    content: '';
+    position: fixed; inset: 0; z-index: 0;
+    background:
+      radial-gradient(ellipse 75% 75% at 48% 52%, transparent 30%, rgba(6,8,10,0.65) 100%),
+      radial-gradient(ellipse at 18% 20%, rgba(128,96,224,0.03) 0%, transparent 55%),
+      radial-gradient(ellipse at 82% 75%, rgba(232,160,64,0.025) 0%, transparent 50%),
+      radial-gradient(ellipse at 75% 12%, rgba(238,85,68,0.012) 0%, transparent 40%);
+    pointer-events: none;
+  }
+
+  /* ═══════ HERO ═══════ */
+  .hero {
+    position: relative; z-index: 1;
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    text-align: center;
+    padding: 48px 24px;
+    overflow: hidden;
+  }
+
+  /* Scan line */
+  .scan-line {
+    position: absolute; top: 0; left: 0; right: 0; height: 2px; z-index: 0;
+    background: linear-gradient(90deg,
+      transparent 0%, rgba(128,96,224,0.05) 25%, rgba(192,144,255,0.08) 50%,
+      rgba(128,96,224,0.05) 75%, transparent 100%);
+    box-shadow: 0 0 10px rgba(128,96,224,0.04);
+  }
+
+  /* Watermarks */
+  .watermark {
+    position: absolute; z-index: 0;
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 700; letter-spacing: 0.04em;
+    pointer-events: none; user-select: none;
+  }
+  .wm-gaming {
+    top: 7%; left: 3%;
+    font-size: clamp(4rem, 10vw, 8rem);
+    color: rgba(232,160,64,0.035);
+  }
+  .wm-llm {
+    top: 16%; right: 3%;
+    font-size: clamp(4.5rem, 11vw, 9rem);
+    color: rgba(128,96,224,0.04);
+  }
+  .wm-vram {
+    bottom: 12%; left: 50%; transform: translateX(-50%);
+    font-size: clamp(5rem, 13vw, 10rem);
+    color: rgba(128,96,224,0.045);
+  }
+  .wm-vram span { color: rgba(255,255,255,0.02); }
+
+  /* Content wrapper */
+  .hero-content {
+    position: relative; z-index: 1;
+    width: 100%; max-width: 960px;
+    display: flex; flex-direction: column; align-items: center;
+  }
+
+  /* Meta line */
+  .meta-line {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem; color: rgba(255,255,255,0.2);
+    text-transform: uppercase; letter-spacing: 0.35em;
+    margin-bottom: 24px; line-height: 1.6;
+  }
+  .meta-line .sep { color: rgba(255,255,255,0.06); margin: 0 6px; }
+  .meta-line .dot { color: #8060e0; }
+
+  /* Tag badge */
+  .tag-badge {
+    display: inline-block;
+    padding: 6px 16px;
+    background: #8060e0; color: #080a0c;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem; font-weight: 700;
+    text-transform: uppercase;
+    transform: skewX(-12deg);
+    margin-bottom: 32px;
+    box-shadow: 0 0 24px rgba(128,96,224,0.3);
+  }
+  .tag-badge span { display: inline-block; transform: skewX(12deg); }
+
+  /* Title */
+  .hero-setup {
+    font-family: 'PT Serif', serif;
+    font-style: italic; font-weight: 400;
+    font-size: clamp(1.35rem, 2.8vw, 1.9rem);
+    line-height: 1.2; color: rgba(255,255,255,0.55);
+    max-width: 640px; margin-bottom: 4px;
+    letter-spacing: -0.01em;
+  }
+  .hero-punchline {
+    font-family: 'Teko', sans-serif;
+    font-size: clamp(4rem, 9vw, 7.5rem);
+    font-weight: 700; text-transform: uppercase;
+    line-height: 0.9; letter-spacing: -0.01em;
+    margin-bottom: 20px;
+    /* amber → violet gradient */
+    background: linear-gradient(108deg,
+      #e8a040 0%, #d09050 20%, #b08070 40%,
+      #9070a0 60%, #8060e0 80%, #9070c0 100%);
+    background-size: 250% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: dual-shimmer 6s ease-in-out infinite;
+  }
+  @keyframes dual-shimmer {
+    0%, 100% { background-position: 0% center; }
+    50%      { background-position: 100% center; }
+  }
+
+  /* Subtitle */
+  .hero-subtitle {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.25rem; font-weight: 400;
+    line-height: 1.6; color: rgba(255,255,255,0.7);
+    max-width: 560px; margin-bottom: 56px;
+  }
+  .hero-subtitle em {
+    font-family: 'IBM Plex Mono', monospace;
+    font-style: normal; color: #c090ff; font-weight: 500;
+  }
+
+  /* ═══════ INSTRUMENT PANEL ═══════ */
+  .instruments {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    width: 100%; max-width: 720px;
+  }
+  @media (max-width: 640px) {
+    .instruments { grid-template-columns: 1fr; }
+  }
+
+  .instrument {
+    padding: 40px;
+    background: rgba(255,255,255,0.01);
+    text-align: left;
+    position: relative;
+    transition: background 0.3s;
+  }
+  .instrument:hover {
+    background: rgba(255,255,255,0.02);
+  }
+  .instrument-gaming {
+    border: 1px solid rgba(232,160,64,0.2);
+  }
+  .instrument-llm {
+    border: 1px solid rgba(128,96,224,0.25);
+  }
+
+  .instrument-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem; text-transform: uppercase;
+    letter-spacing: 0.35em; margin-bottom: 20px;
+    opacity: 0.7;
+  }
+  .instrument-label.gaming { color: #e8a040; }
+  .instrument-label.llm    { color: #8060e0; }
+
+  /* Gauge */
+  .gauge-wrap {
+    margin: 0 auto 24px;
+    width: 140px; height: 70px;
+    border-radius: 70px 70px 0 0;
+    position: relative; overflow: hidden;
+    display: flex; align-items: flex-end; justify-content: center;
+  }
+  .gauge-gaming {
+    background: conic-gradient(from 180deg,
+      rgba(232,160,64,0.12) 0deg, rgba(232,160,64,0.25) 60deg,
+      rgba(232,160,64,0.08) 120deg, transparent 180deg);
+  }
+  .gauge-llm {
+    background: conic-gradient(from 180deg,
+      rgba(128,96,224,0.12) 0deg, rgba(128,96,224,0.30) 90deg,
+      rgba(192,144,255,0.15) 150deg, transparent 180deg);
+  }
+
+  .gauge-wrap::after {
+    content: '';
+    position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+    width: 120px; height: 60px;
+    border: 1px solid rgba(255,255,255,0.05);
+    border-bottom: none;
+    border-radius: 60px 60px 0 0;
+  }
+
+  .needle {
+    position: absolute; bottom: 0; left: 50%;
+    width: 2px; height: 60px; transform-origin: bottom;
+    transition: transform 1s ease-out;
+  }
+  .needle-gaming {
+    background: #e8a040; transform: rotate(-25deg);
+    box-shadow: 0 0 6px rgba(232,160,64,0.5);
+  }
+  .needle-llm {
+    background: #8060e0; transform: rotate(-65deg);
+    box-shadow: 0 0 8px rgba(128,96,224,0.6);
+  }
+
+  .instrument-value {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1.8rem; font-weight: 700; margin-bottom: 12px;
+  }
+  .instrument-value.gaming { color: #e8a040; }
+  .instrument-value.llm    { color: #8060e0; }
+
+  .instrument-text {
+    color: rgba(255,255,255,0.5);
+    font-size: 0.85rem; line-height: 1.6; margin-bottom: 16px;
+  }
+
+  .instrument-metric {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem; text-transform: uppercase;
+    letter-spacing: 0.25em; color: rgba(255,255,255,0.15);
+  }
+
+  /* Bottom note */
+  .instruments-note {
+    font-family: 'PT Serif', serif;
+    font-style: italic; color: rgba(255,255,255,0.35);
+    font-size: 0.9rem; margin-top: 24px;
+    max-width: 520px; line-height: 1.6;
+  }
+
+  /* ═══════ DESIGN NOTES (dev only) ═══════ */
+  .design-notes {
+    position: fixed; bottom: 16px; left: 16px; right: 16px;
+    z-index: 100;
+    background: rgba(6,8,12,0.95);
+    border: 1px solid rgba(128,96,224,0.15);
+    padding: 12px 16px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem; color: rgba(255,255,255,0.5);
+    max-width: 720px; margin: 0 auto;
+    border-radius: 4px;
+  }
+  .design-notes strong { color: #8060e0; }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="scan-line"></div>
+
+  <!-- Watermarks -->
+  <div class="watermark wm-gaming">GAMING</div>
+  <div class="watermark wm-llm">LLM</div>
+  <div class="watermark wm-vram">16<span>GB</span></div>
+
+  <div class="hero-content">
+
+    <!-- Meta line -->
+    <div class="meta-line">
+      Вып. #106<span class="sep">//</span>Май 2026<span class="sep">//</span>
+      <span class="dot">●</span>
+      Обзор видеокарты<span class="sep">//</span>Автор: <a href="#" style="color:inherit">Евгений Кайзин</a>
+    </div>
+
+    <!-- Tag badge -->
+    <div class="tag-badge"><span>VRAM ≠ FPS</span></div>
+
+    <!-- Title -->
+    <p class="hero-setup">16 ГБ за $499. Геймер видит переплату.</p>
+    <h1 class="hero-punchline">Инженер видит ВХОД</h1>
+
+    <!-- Subtitle -->
+    <p class="hero-subtitle">
+      Одна карта. Две системы координат. Два противоположных вердикта. <em>RTX 4060 Ti 16GB</em> — не компромисс, а специализированный инструмент, который по ошибке продают как игровой.
+    </p>
+
+    <!-- Instrument Panel -->
+    <div class="instruments">
+
+      <!-- Instrument A — Gaming -->
+      <div class="instrument instrument-gaming">
+        <div class="instrument-label gaming">Прибор А</div>
+        <div class="gauge-wrap gauge-gaming">
+          <div class="needle needle-gaming"></div>
+        </div>
+        <div class="instrument-value gaming">$100</div>
+        <div class="instrument-text">
+          Переплата за 8 лишних гигабайт, которые чип AD106 не может утилизировать в играх.
+        </div>
+        <div class="instrument-metric">Метрика: FPS</div>
+      </div>
+
+      <!-- Instrument B — LLM -->
+      <div class="instrument instrument-llm">
+        <div class="instrument-label llm">Прибор Б</div>
+        <div class="gauge-wrap gauge-llm">
+          <div class="needle needle-llm"></div>
+        </div>
+        <div class="instrument-value llm">16 ГБ</div>
+        <div class="instrument-text">
+          Самый дешёвый новый вход в мир 16 ГБ VRAM. Порог для 13B-моделей без компромиссов.
+        </div>
+        <div class="instrument-metric">Метрика: VRAM</div>
+      </div>
+    </div>
+
+    <p class="instruments-note">
+      Один параметр. Два прибора. Один из них показывает правду.
+    </p>
+
+  </div>
+</section>
+
+<!-- Design notes -->
+<div class="design-notes">
+  <strong>Junior Pass — Hero</strong> &nbsp;|&nbsp;
+  Метафора: измерительный стенд с двумя шкалами &nbsp;|&nbsp;
+  Amber = Gaming (тёплый, «неправильный» путь) &nbsp;|&nbsp;
+  Violet = LLM (холодная точность, правильный вердикт) &nbsp;|&nbsp;
+  Punchline: amber→violet градиент = две системы координат в одном слове &nbsp;|&nbsp;
+  Стрелки: 25° (слабый сигнал) vs 65° (полная утилизация)
+</div>
+
+</body>
+</html>

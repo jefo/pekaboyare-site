@@ -1,0 +1,162 @@
+<!DOCTYPE html><html lang="ru"> <head><!-- Global Metadata --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator" content="Astro v6.3.7"><!-- Canonical URL --><link rel="canonical" href="https://pekaboyare.ru/issues/001/"><!-- Primary Meta Tags --><title>ИгроЛаба · Выпуск №001 · Фреймтайм | ИгроЛаба</title><meta name="title" content="ИгроЛаба · Выпуск №001 · Фреймтайм | ИгроЛаба"><meta name="description" content="Первый выпуск технического журнала ИгроЛаба. Фреймтайм: почему стабильные 85 FPS плавнее нестабильных 144 — и как одна метрика переворачивает индустрию."><!-- Open Graph / Facebook --><meta property="og:type" content="website"><meta property="og:url" content="https://pekaboyare.ru/issues/001/"><meta property="og:title" content="ИгроЛаба · Выпуск №001 · Фреймтайм"><meta property="og:description" content="Первый выпуск технического журнала ИгроЛаба. Фреймтайм: почему стабильные 85 FPS плавнее нестабильных 144 — и как одна метрика переворачивает индустрию."><meta property="og:image" content="https://pekaboyare.ru/favicon.svg"><meta property="og:site_name" content="ИгроЛаба"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://pekaboyare.ru/issues/001/"><meta property="twitter:title" content="ИгроЛаба · Выпуск №001 · Фреймтайм"><meta property="twitter:description" content="Первый выпуск технического журнала ИгроЛаба. Фреймтайм: почему стабильные 85 FPS плавнее нестабильных 144 — и как одна метрика переворачивает индустрию."><meta property="twitter:image" content="https://pekaboyare.ru/favicon.svg"><meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"><meta name="ai-crawler" content="index"><!-- JSON-LD Structured Data for AI/Search Engines --><script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"ИгроЛаба","url":"https://pekaboyare.ru/","description":"Первый выпуск технического журнала ИгроЛаба. Фреймтайм: почему стабильные 85 FPS плавнее нестабильных 144 — и как одна метрика переворачивает индустрию.","headline":"ИгроЛаба · Выпуск №001 · Фреймтайм","image":"https://pekaboyare.ru/favicon.svg","author":{"@type":"Person","name":"Евгений Кайзин","url":"https://pekaboyare.ru/author"},"publisher":{"@type":"Organization","name":"Железный Аргумент","logo":{"@type":"ImageObject","url":"https://pekaboyare.ru/favicon.svg"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://pekaboyare.ru/issues/001/"}}</script><!-- JSON-LD BreadcrumbList --><!-- Yandex.Metrika counter --><script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=109025359', 'ym');
+
+    ym(109025359, 'init', {ssr:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+</script><noscript><div><img src="https://mc.yandex.ru/watch/109025359" style="position:absolute; left:-9999px;" alt=""></div></noscript><!-- /Yandex.Metrika counter --><link rel="stylesheet" href="/_astro/industrial-theme.xggl-G9h.css">
+<link rel="stylesheet" href="/_astro/001.oJyqkY-5.css"></head> <body class="issue-page-horizontal"> <div class="issue-bg-layer issue-bg-grid"></div> <div class="issue-bg-layer issue-bg-signal-traces"></div> <div class="issue-bg-layer issue-bg-noise"></div> <div class="issue-bg-layer issue-bg-vignette"></div> <div class="issue-scan-line"></div> <!-- Frametime bars (replaces quantum particles) --> <div id="issue-particles"></div> <!-- Archive markings (reveal on idle) --> <div class="issue-archive issue-archive-tl" id="am-tl">ISSUE:001 · CLASS:RESTRICTED · CLEARANCE:ENGINEERING</div> <div class="issue-archive issue-archive-br" id="am-br">CHECKSUM:0x7F3A9E · SYNC:144Hz</div> <div class="issue-archive issue-archive-side" id="am-side">ВЫПУСК №001 · ФРЕЙМТАЙМ · ПОЧЕМУ 85 FPS ПЛАВНЕЕ 144</div> <script type="module">(function(){const a=["am-tl","am-br","am-side"].map(e=>document.getElementById(e)).filter(Boolean);let o;function s(){a.forEach(e=>e.classList.add("reveal"))}function t(){a.forEach(e=>e.classList.remove("reveal")),clearTimeout(o),o=setTimeout(s,8e3)}["mousemove","scroll","keydown","touchstart"].forEach(e=>{document.addEventListener(e,t,{passive:!0})}),o=setTimeout(s,8e3)})();(function(){const a=document.getElementById("issue-particles");if(!a)return;const o=["stable","warm","stutter"];for(let s=0;s<28;s++){const t=document.createElement("div"),e=o[Math.floor(Math.random()*3)];t.className="issue-particle "+e,t.style.left=Math.random()*94+"%",t.style.top=45+Math.random()*55+"%",t.style.width=1.5+Math.random()*1.5+"px",t.style.height=t.style.width,t.style.animationDuration=12+Math.random()*20+"s",t.style.animationDelay=Math.random()*15+"s",a.appendChild(t)}})();</script> <div class="issue-page-full" style="padding-top:2rem;"> <!-- ═══ MASTHEAD ═══ --> <div class="issue-masthead-h"> <div class="issue-masthead-brand-h" id="issueNavTrigger"> <span class="term-prompt">&gt;</span>&#8201;Игро<span class="term-accent">Лаба</span>:&#8201;<span class="term-cmd">открыть_меню</span><span class="term-cursor">█</span> </div> <div class="issue-masthead-meta-h"> <span class="issue-status-dot"></span> СИСТЕМА ОНЛАЙН
+<span class="sep">//</span>
+ВЫПУСК №001 <span style="color:rgba(255,255,255,0.12);">//</span> Май 2026 </div> </div> <div class="issue-rule-compact"></div> <nav class="issue-nav-panel" id="issueNavPanel"> <div class="issue-nav-inner"> <div class="issue-nav-eyebrow">◇ РАЗДЕЛЫ · ЖЕЛЕЗО</div> <div class="issue-nav-grid"> <!-- Процессоры · CYAN --> <a href="/hardware/processors" class="issue-nav-card" style="--cat-color:var(--cat-cpu)"> <div class="issue-nav-icon"> <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"> <rect x="12" y="12" width="40" height="40" rx="3" stroke="currentColor" stroke-width="2.2"></rect> <rect x="22" y="22" width="20" height="20" rx="1.5" fill="currentColor" opacity="0.08" stroke="currentColor" stroke-width="1" opacity="0.4"></rect> <circle cx="32" cy="32" r="3" fill="currentColor" opacity="0.45"></circle> <circle cx="16" cy="16" r="2" fill="currentColor" opacity="0.25"></circle> <rect x="16" y="54" width="2" height="3" rx="0.5" fill="currentColor" opacity="0.25"></rect> <rect x="22" y="54" width="2" height="3" rx="0.5" fill="currentColor" opacity="0.3"></rect> <rect x="28" y="54" width="2" height="3" rx="0.5" fill="currentColor" opacity="0.35"></rect> <rect x="34" y="54" width="2" height="3" rx="0.5" fill="currentColor" opacity="0.3"></rect> <rect x="40" y="54" width="2" height="3" rx="0.5" fill="currentColor" opacity="0.25"></rect> <rect x="46" y="54" width="2" height="3" rx="0.5" fill="currentColor" opacity="0.2"></rect> <rect x="16" y="7" width="2" height="3" rx="0.5" fill="currentColor" opacity="0.25"></rect> <rect x="22" y="7" width="2" height="3" rx="0.5" fill="currentColor" opacity="0.3"></rect> <rect x="28" y="7" width="2" height="3" rx="0.5" fill="currentColor" opacity="0.35"></rect> <rect x="34" y="7" width="2" height="3" rx="0.5" fill="currentColor" opacity="0.3"></rect> <rect x="40" y="7" width="2" height="3" rx="0.5" fill="currentColor" opacity="0.25"></rect> <rect x="46" y="7" width="2" height="3" rx="0.5" fill="currentColor" opacity="0.2"></rect> </svg> </div> <div class="issue-nav-label-block"> <div class="issue-nav-label">Процессоры</div> <div class="issue-nav-sub">AMD Ryzen, Intel Core — спецификации и тесты</div> <div class="issue-nav-count">3 МОДЕЛИ В БАЗЕ</div> </div> </a> <!-- Видеокарты · GREEN --> <a href="/hardware/gpu" class="issue-nav-card" style="--cat-color:var(--cat-gpu)"> <div class="issue-nav-icon"> <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"> <rect x="6" y="16" width="52" height="28" rx="3" stroke="currentColor" stroke-width="2.2"></rect> <rect x="14" y="20" width="36" height="20" rx="1.5" fill="currentColor" opacity="0.04"></rect> <circle cx="24" cy="30" r="10" stroke="currentColor" stroke-width="1.5" opacity="0.55"></circle> <circle cx="24" cy="30" r="3" fill="currentColor" opacity="0.25"></circle> <line x1="24" y1="22" x2="24" y2="25" stroke="currentColor" stroke-width="1.2" opacity="0.3"></line> <line x1="24" y1="35" x2="24" y2="38" stroke="currentColor" stroke-width="1.2" opacity="0.3"></line> <line x1="22" y1="30" x2="19" y2="30" stroke="currentColor" stroke-width="1.2" opacity="0.3"></line> <line x1="26" y1="30" x2="29" y2="30" stroke="currentColor" stroke-width="1.2" opacity="0.3"></line> <circle cx="40" cy="30" r="10" stroke="currentColor" stroke-width="1.5" opacity="0.55"></circle> <circle cx="40" cy="30" r="3" fill="currentColor" opacity="0.25"></circle> <line x1="40" y1="22" x2="40" y2="25" stroke="currentColor" stroke-width="1.2" opacity="0.3"></line> <line x1="40" y1="35" x2="40" y2="38" stroke="currentColor" stroke-width="1.2" opacity="0.3"></line> <rect x="22" y="44" width="20" height="3" rx="1" fill="currentColor" opacity="0.15"></rect> <rect x="26" y="47" width="12" height="2" rx="0.5" fill="currentColor" opacity="0.08"></rect> <rect x="44" y="12" width="4" height="4" rx="0.8" fill="currentColor" opacity="0.12"></rect> <rect x="50" y="12" width="4" height="4" rx="0.8" fill="currentColor" opacity="0.12"></rect> </svg> </div> <div class="issue-nav-label-block"> <div class="issue-nav-label">Видеокарты</div> <div class="issue-nav-sub">NVIDIA GeForce, AMD Radeon — бенчмарки и обзоры</div> <div class="issue-nav-count">5 МОДЕЛЕЙ В БАЗЕ</div> </div> </a> <!-- Материнские платы · AMBER --> <a href="/hardware/motherboards" class="issue-nav-card" style="--cat-color:var(--cat-mb)"> <div class="issue-nav-icon"> <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"> <rect x="6" y="6" width="52" height="48" rx="3" stroke="currentColor" stroke-width="2.2"></rect> <circle cx="14" cy="14" r="3" stroke="currentColor" stroke-width="1" opacity="0.35"></circle> <circle cx="50" cy="14" r="3" stroke="currentColor" stroke-width="1" opacity="0.35"></circle> <circle cx="14" cy="46" r="3" stroke="currentColor" stroke-width="1" opacity="0.35"></circle> <circle cx="50" cy="46" r="3" stroke="currentColor" stroke-width="1" opacity="0.35"></circle> <rect x="20" y="20" width="24" height="20" rx="2" fill="currentColor" opacity="0.04" stroke="currentColor" stroke-width="1" opacity="0.35"></rect> <rect x="28" y="22" width="8" height="16" rx="1" fill="currentColor" opacity="0.06"></rect> <rect x="16" y="44" width="14" height="3" rx="0.8" fill="currentColor" opacity="0.15"></rect> <rect x="16" y="48" width="14" height="3" rx="0.8" fill="currentColor" opacity="0.1"></rect> <rect x="34" y="32" width="20" height="3" rx="0.8" fill="currentColor" opacity="0.12"></rect> <rect x="34" y="38" width="16" height="3" rx="0.8" fill="currentColor" opacity="0.07"></rect> <rect x="18" y="14" width="28" height="2" rx="0.5" fill="currentColor" opacity="0.1"></rect> <path d="M8 22h6v-4h4v8h-6v2h8" stroke="currentColor" stroke-width="0.8" opacity="0.18" fill="none"></path> </svg> </div> <div class="issue-nav-label-block"> <div class="issue-nav-label">Матплаты</div> <div class="issue-nav-sub">Сокеты, чипсеты, VRM — совместимость и тесты</div> <div class="issue-nav-count">2 МОДЕЛИ В БАЗЕ</div> </div> </a> <!-- Связки CPU+GPU · VIOLET --> <a href="/hardware/cpu-gpu-bundles" class="issue-nav-card" style="--cat-color:var(--cat-pc)"> <div class="issue-nav-icon"> <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"> <!-- CPU chip --> <rect x="6" y="12" width="24" height="24" rx="2.5" stroke="currentColor" stroke-width="2"></rect> <rect x="12" y="18" width="12" height="12" rx="1" fill="currentColor" opacity="0.06"></rect> <circle cx="18" cy="24" r="2.5" fill="currentColor" opacity="0.35"></circle> <!-- GPU card --> <rect x="34" y="28" width="24" height="16" rx="2.5" stroke="currentColor" stroke-width="2"></rect> <circle cx="42" cy="36" r="4.5" stroke="currentColor" stroke-width="1.2" opacity="0.5"></circle> <circle cx="50" cy="36" r="4.5" stroke="currentColor" stroke-width="1.2" opacity="0.5"></circle> <!-- link line between them --> <line x1="30" y1="30" x2="34" y2="32" stroke="currentColor" stroke-width="1.2" opacity="0.4" stroke-dasharray="3 2"></line> <circle cx="32" cy="31" r="1.5" fill="currentColor" opacity="0.3"></circle> </svg> </div> <div class="issue-nav-label-block"> <div class="issue-nav-label">Связки</div> <div class="issue-nav-sub">Готовые сборки CPU+GPU —<br>совместимость и бенчмарки</div> <div class="issue-nav-count">1 СВЯЗКА В БАЗЕ</div> </div> </a> </div> </div> </nav> <!-- ═══ PAGE CONTENT ═══ -->   <div class="issue-spread"> <!-- ═══ FUNDAMENTAL HUB (left) ═══ --> <a href="/articles/frametime-85-vs-144" class="fundamental-hub"> <div class="fundamental-glow"></div> <div class="fundamental-watermark">001</div> <!-- Wrapper: margin auto inside flex column = perfect vertical centering --> <div class="fundamental-inner"> <span class="fundamental-badge">ФУНДАМЕНТ</span> <div class="fundamental-meta-line">Вып. №001 // Май 2026 // Евгений Кайзин</div> <h1 class="fundamental-title"> ФРЕЙМ<br> <span class="gold">ТАЙМ</span> </h1> <p class="fundamental-pathos">Одна метрика переворачивает всё, чему учила индустрия. <em>85 FPS плавнее 144</em> — и это не магия, а физика.</p> <div class="fundamental-stats"> <b>9</b> ГЛАВ &nbsp;·&nbsp;<b>35</b> МИН &nbsp;·&nbsp;<b>120</b> FPS &nbsp;·&nbsp;<b>85</b> FPS &nbsp;·&nbsp; </div> <span class="fundamental-cta"> <span>ЧИТАТЬ МАТЕРИАЛ</span> <span class="arr">→</span> </span> </div> </a> <!-- ═══ PILLARS (right) ═══ --> <div class="issue-pillars"> <a href="/articles/dram-refresh-trefi" class="issue-genre-card-h genre-h-basics ">   <div class="crt-grid-overlay"></div> <div class="crt-bracket crt-tl"></div> <div class="crt-bracket crt-br"></div> <div class="crt-scan"></div>          <span class="card-badge">БАЗА</span> <div class="card-meta">[[ Часть_02 ]] // Основы</div> <div class="card-title">Ты заплатил за 48 ГБ — и проиграл</div> <div class="card-desc">Как tRFC и tREFI съедают плавность. Почему плотная DDR5 требует ручной настройки — и где ты теряешь FPS прямо сейчас.</div> <div class="card-footer"> <span style="color:var(--color-boyar-green);">11</span> глав · 35 мин
+</div>  </a> <script>
+  (function() {
+    document.addEventListener('click', function(e) {
+      var card = e.target.closest('.issue-genre-card-h[data-disabled="true"]');
+      if (!card) return;
+      e.preventDefault();
+      e.stopPropagation();
+      if (card.classList.contains('digest-pulsing')) return;
+      card.classList.add('digest-pulsing');
+      card.addEventListener('animationend', function() {
+        card.classList.remove('digest-pulsing');
+      }, { once: true });
+    });
+  })();
+</script> <a href="/reviews/razbor-pk-s-marketpleysa-za-75k" class="issue-genre-card-h genre-h-crime ">    <div class="tape"> <div class="tape-label">УЛИКА #014</div> </div>       <span class="card-badge">ТРУ-КРАЙМ</span> <div class="card-meta">[[ Часть_03 ]] // Расследование</div> <div class="card-title">Операция «Химера»</div> <div class="card-desc">Разоблачаем «Игровой ПК 2026» за 75 000 ₽. Технологии из эпохи кнопочных телефонов в RGB-ленте.</div> <div class="card-footer"> <span style="color:var(--color-warning-amber);">8</span> глав · 25 мин
+</div>  </a> <script>
+  (function() {
+    document.addEventListener('click', function(e) {
+      var card = e.target.closest('.issue-genre-card-h[data-disabled="true"]');
+      if (!card) return;
+      e.preventDefault();
+      e.stopPropagation();
+      if (card.classList.contains('digest-pulsing')) return;
+      card.classList.add('digest-pulsing');
+      card.addEventListener('animationend', function() {
+        card.classList.remove('digest-pulsing');
+      }, { once: true });
+    });
+  })();
+</script> <a href="/cases/oasis-node" class="issue-genre-card-h genre-h-case ">       <div class="bp-mark" style="top:8px;left:12px;">REF:ON-012</div> <div class="bp-mark" style="bottom:8px;right:10px;">REV:B</div> <div class="bp-line" style="top:45%;left:0;right:0;height:1px;"></div> <div class="bp-dim" style="top:42%;right:16px;">+/-0.05mm</div> <div class="bp-dim" style="bottom:40%;left:12px;">230V AC IN</div>      <span class="card-badge">КЕЙС</span> <div class="card-meta">[[ Часть_04 ]] // Инженерный разбор</div> <div class="card-title">Oasis Node v1.2</div> <div class="card-desc">Бесшумная LLM-станция за $1500.</div> <div class="card-footer"> <span style="color:var(--color-primary);">7</span> глав · 20 мин
+</div>  </a> <script>
+  (function() {
+    document.addEventListener('click', function(e) {
+      var card = e.target.closest('.issue-genre-card-h[data-disabled="true"]');
+      if (!card) return;
+      e.preventDefault();
+      e.stopPropagation();
+      if (card.classList.contains('digest-pulsing')) return;
+      card.classList.add('digest-pulsing');
+      card.addEventListener('animationend', function() {
+        card.classList.remove('digest-pulsing');
+      }, { once: true });
+    });
+  })();
+</script> <a href="/reviews/rtx-4060-ti-16gb" class="issue-genre-card-h genre-h-review ">           <span class="card-badge">ОБЗОР</span> <div class="card-meta">[[ Часть_05 ]] // Обзор железа</div> <div class="card-title">RTX 4060 Ti 16GB</div> <div class="card-desc">16 ГБ на 128-бит — не игровая покупка, а вход в локальный LLM.</div> <div class="card-footer"> <span style="color:var(--color-boyar-gold);">7</span> глав · 15 мин
+</div>  </a> <script>
+  (function() {
+    document.addEventListener('click', function(e) {
+      var card = e.target.closest('.issue-genre-card-h[data-disabled="true"]');
+      if (!card) return;
+      e.preventDefault();
+      e.stopPropagation();
+      if (card.classList.contains('digest-pulsing')) return;
+      card.classList.add('digest-pulsing');
+      card.addEventListener('animationend', function() {
+        card.classList.remove('digest-pulsing');
+      }, { once: true });
+    });
+  })();
+</script> <a href="#" class="issue-genre-card-h genre-h-digest card-row" data-disabled="true">         <div class="ticker-strip"></div> <div class="ticker-text"> <span>DDR5 PRICE SURGE · NVIDIA RUBIN LEAK · INTEL ROADMAP 2028 · AMD ZEN6 · HBM4 · CHIPLET WARS · DLSS 5.0 ·</span> </div>    <div class="card-left"> <span class="card-badge">ДАЙДЖЕСТ</span> <div class="card-meta" style="margin-top:0.3rem;">[[ Часть_06 ]] // 2 недели</div> </div> <div class="card-right"> <div class="card-title" style="margin-bottom:0.2rem;">Новости индустрии</div> <div class="digest-news-list"> <div class="digest-news-item">▸ RAMageddon: ИИ-бум поднял цены DDR5 до небес</div><div class="digest-news-item">▸ Утечка: NVIDIA Rubin — архитектура и даты</div><div class="digest-news-item">▸ Intel — дорожная карта процессоров до 2028</div><div class="digest-news-item">▸ HBM4: терабайты пропускной способности в цехе</div> </div> </div>  </a> <script>
+  (function() {
+    document.addEventListener('click', function(e) {
+      var card = e.target.closest('.issue-genre-card-h[data-disabled="true"]');
+      if (!card) return;
+      e.preventDefault();
+      e.stopPropagation();
+      if (card.classList.contains('digest-pulsing')) return;
+      card.classList.add('digest-pulsing');
+      card.addEventListener('animationend', function() {
+        card.classList.remove('digest-pulsing');
+      }, { once: true });
+    });
+  })();
+</script> </div> </div>  <!-- ═══ COLOPHON ═══ --> <div class="issue-colophon-h"> <div class="issue-colophon-left-h"> <span class="issue-status-dot"></span> STATUS: ONLINE // SYNC: 144Hz
+</div> <div>DOC-ID: ISSUE-001-PLT // CLEARANCE: ENGINEERING</div> <div>© 2024–2026 ИГРОЛАБА · <a href="/author" class="hover:text-white/60 transition-colors underline underline-offset-2">МАСТЕРСКАЯ КАЙЗИНА</a></div> </div> </div> <script>
+      const navPanel = document.getElementById('issueNavPanel');
+      const navTrigger = document.getElementById('issueNavTrigger');
+      const termCmd = navTrigger.querySelector('.term-cmd');
+      let navOpen = false;
+      function toggleNav() {
+        navOpen = !navOpen;
+        navPanel.classList.toggle('open', navOpen);
+        navTrigger.classList.toggle('open', navOpen);
+      }
+      navTrigger.addEventListener('click', toggleNav);
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape' && navOpen) toggleNav();
+      });
+
+      // ── Idle «тук-тук...» — периодически привлекает внимание ──
+      let idleTimer, idleHold, idleReset;
+      let idleActive = false;
+
+      function killIdleTimeouts() {
+        clearTimeout(idleTimer);
+        clearTimeout(idleHold);
+        clearTimeout(idleReset);
+      }
+
+      function typeText(text) {
+        const chars = text.length;
+        termCmd.textContent = text;
+        termCmd.style.transition = `max-width ${chars * 0.07}s steps(${chars})`;
+        termCmd.style.maxWidth = chars + 'ch';
+        return chars * 70;
+      }
+
+      function collapseCmd() {
+        termCmd.style.transition = 'max-width 0.12s ease';
+        termCmd.style.maxWidth = '0';
+      }
+
+      function idleKnock() {
+        if (idleActive || navOpen) { scheduleIdle(); return; }
+        idleActive = true;
+        const typeMs = typeText('тук-тук...');
+        idleHold = setTimeout(() => {
+          collapseCmd();
+          idleReset = setTimeout(() => {
+            termCmd.textContent = 'открыть_меню';
+            idleActive = false;
+            scheduleIdle();
+          }, 150);
+        }, typeMs + 1400);
+      }
+
+      function scheduleIdle() {
+        clearTimeout(idleTimer);
+        idleTimer = setTimeout(idleKnock, 7000 + Math.random() * 9000); // 7–16s
+      }
+
+      navTrigger.addEventListener('mouseenter', () => {
+        killIdleTimeouts();
+        if (idleActive) { collapseCmd(); idleActive = false; }
+        const delay = idleActive ? 150 : 0;
+        setTimeout(() => {
+          termCmd.textContent = 'открыть_меню';
+          termCmd.style.transition = 'max-width 0.34s steps(12)';
+          termCmd.style.maxWidth = '14ch';
+        }, delay);
+      });
+
+      navTrigger.addEventListener('mouseleave', () => {
+        collapseCmd();
+        scheduleIdle();
+      });
+
+      scheduleIdle();
+    </script> </body> </html>
