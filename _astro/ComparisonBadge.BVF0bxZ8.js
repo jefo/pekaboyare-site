@@ -1,0 +1,4 @@
+import"./disclose-version.DsnmJJEf.js";import{k as b,i as d,j as v,a as o,p as x,b as g,s as h,g as p,l as _,d as y,c as n,r as i,t as k,f as C}from"./template.DIAOSv5F.js";import{s as j}from"./render.D2V4cXoR.js";import{i as w}from"./if.DSdVVowE.js";import{c as B}from"./comparisonStore.DSONJDOq.js";var $=C(`<a href="/hardware/processors/compare/" class="relative flex items-center gap-1.5 px-3 py-1.5 rounded
+           bg-[var(--color-primary)]/10 border border-[var(--color-primary)]/30
+           hover:bg-[var(--color-primary)]/20 transition-colors
+           font-telemetry text-xs text-[var(--color-primary)]"><span class="text-sm">⚖</span> <span>Сравнить</span> <span class="tabular-nums font-bold"> </span></a>`);function F(m,c){g(c,!0);let s=_(0);b(()=>B.subscribe(r=>h(s,r,!0)));var t=d(),l=v(t);{var f=a=>{var r=$(),e=y(n(r),4),u=n(e);i(e),i(r),k(()=>j(u,`${p(s)??""}/3`)),o(a,r)};w(l,a=>{p(s)>0&&a(f)})}o(m,t),x()}export{F as default};

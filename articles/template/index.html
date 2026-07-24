@@ -1,0 +1,157 @@
+<!DOCTYPE html><html lang="ru"> <head><!-- Global Metadata --><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator" content="Astro v6.4.8"><!-- Canonical URL --><link rel="canonical" href="https://pekaboyare.ru/articles/template/"><!-- Primary Meta Tags --><title>Longread Template — тестовая страница скелета | ИгроЛаба</title><meta name="title" content="Longread Template — тестовая страница скелета | ИгроЛаба"><meta name="description" content="Тестовая страница-заготовка для новых лонгридов ИгроЛабы. Скелет: LongreadLayout + Sidebar + CSS-тема с точками роста."><!-- Open Graph / Facebook --><meta property="og:type" content="article"><meta property="og:url" content="https://pekaboyare.ru/articles/template/"><meta property="og:title" content="Longread Template — тестовая страница скелета"><meta property="og:description" content="Тестовая страница-заготовка для новых лонгридов ИгроЛабы. Скелет: LongreadLayout + Sidebar + CSS-тема с точками роста."><meta property="og:image" content="https://pekaboyare.ru/favicon.svg"><meta property="og:site_name" content="ИгроЛаба"><!-- Twitter --><meta property="twitter:card" content="summary_large_image"><meta property="twitter:url" content="https://pekaboyare.ru/articles/template/"><meta property="twitter:title" content="Longread Template — тестовая страница скелета"><meta property="twitter:description" content="Тестовая страница-заготовка для новых лонгридов ИгроЛабы. Скелет: LongreadLayout + Sidebar + CSS-тема с точками роста."><meta property="twitter:image" content="https://pekaboyare.ru/favicon.svg"><meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"><meta name="ai-crawler" content="index"><!-- JSON-LD Structured Data for AI/Search Engines --><script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","name":"ИгроЛаба","url":"https://pekaboyare.ru/","description":"Тестовая страница-заготовка для новых лонгридов ИгроЛабы. Скелет: LongreadLayout + Sidebar + CSS-тема с точками роста.","headline":"Longread Template — тестовая страница скелета","image":"https://pekaboyare.ru/favicon.svg","author":{"@type":"Person","name":"Евгений Кайзин","url":"https://pekaboyare.ru/author"},"publisher":{"@type":"Organization","name":"Железный Аргумент","logo":{"@type":"ImageObject","url":"https://pekaboyare.ru/favicon.svg"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://pekaboyare.ru/articles/template/"},"datePublished":"2026-06-03","dateModified":"2026-06-03"}</script><!-- JSON-LD BreadcrumbList --><!-- Yandex.Metrika counter --><script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=109025359', 'ym');
+
+    ym(109025359, 'init', {ssr:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+</script><noscript><div><img src="https://mc.yandex.ru/watch/109025359" style="position:absolute; left:-9999px;" alt=""></div></noscript><!-- /Yandex.Metrika counter --><link rel="stylesheet" href="/_astro/LongreadLayout.e1fHCQK3.css"><link rel="stylesheet" href="/_astro/industrial-theme.BvlSEej5.css"><style>.sidebar-item[data-astro-cid-d5ighuuu].active{border-color:var(--color-success);background:color-mix(in srgb,var(--color-success) 10%,transparent);color:var(--color-success)}.sidebar-item[data-astro-cid-d5ighuuu].active .sidebar-sub[data-astro-cid-d5ighuuu]{display:block;opacity:.8}.sidebar-subitems[data-astro-cid-d5ighuuu].expanded{display:block}.sidebar-chevron[data-astro-cid-d5ighuuu].expanded{transform:rotate(90deg)}.glow-blink[data-astro-cid-d5ighuuu]{animation:sidebar-blink 3s step-end infinite}@keyframes sidebar-blink{0%,to{opacity:1}50%{opacity:.25}}
+</style><link rel="stylesheet" href="/_astro/template.BzsqCg7L.css"></head> <body class="bg-boyar-black text-boyar-white overflow-hidden h-screen flex flex-col augmented-page longread-template"> <!-- Top Progress Bar (Reading Progress) --> <div id="progress-bar" class="h-1 bg-boyar-lime w-0 fixed top-0 left-0 z-[9999] transition-all duration-100 ease-out shadow-[0_0_10px_rgba(204,255,0,0.35)]"></div> <!-- Hero skin layer — fills viewport, sits below flex container -->  <div class="flex flex-1 h-full overflow-hidden"> <!-- LEFT SIDEBAR (Navigation) --> <aside class="w-64 border-r border-white/10 hidden md:flex flex-col bg-boyar-black z-20 pt-20"> <div class="h-full"> <div class="h-full flex flex-col font-mono text-sm" data-astro-cid-d5ighuuu> <!-- ══════ BRAND ══════ --> <a href="/" class="block px-5 pt-5 pb-2 no-underline" data-astro-cid-d5ighuuu> <div class="text-2xl font-industrial uppercase tracking-widest text-[var(--color-accent)] leading-none" data-astro-cid-d5ighuuu>
+ИГРОЛАБА
+</div> <p class="font-telemetry text-[10px] text-[var(--color-text-tertiary)] mt-1" data-astro-cid-d5ighuuu>
+// GAMING HARDWARE RESEARCH LAB
+</p> </a> <!-- ══════ ARTICLE TITLE ══════ --> <div class="px-5 pb-4 border-b border-[var(--color-border-subtle)]" data-astro-cid-d5ighuuu> <div class="text-[10px] text-[var(--color-text-tertiary)] mb-1 uppercase tracking-widest" data-astro-cid-d5ighuuu>ISSUE #000</div> <h2 class="font-bold text-[var(--color-text-primary)] uppercase leading-tight" data-astro-cid-d5ighuuu>TEMPLATE</h2> <!-- Share --> <div class="relative mt-3" id="share-block" data-astro-cid-d5ighuuu> <button id="share-toggle" class="w-full flex items-center justify-center gap-2 py-2 font-mono text-[12px] uppercase tracking-widest border border-white/30 text-white/60 hover:text-[var(--color-accent)] hover:border-[var(--color-accent)] transition-colors bg-transparent cursor-pointer" data-astro-cid-d5ighuuu> <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-d5ighuuu><circle cx="18" cy="5" r="3" data-astro-cid-d5ighuuu></circle><circle cx="6" cy="12" r="3" data-astro-cid-d5ighuuu></circle><circle cx="18" cy="19" r="3" data-astro-cid-d5ighuuu></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49" data-astro-cid-d5ighuuu></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49" data-astro-cid-d5ighuuu></line></svg>
+Поделиться
+</button> <div id="share-dropdown" class="absolute top-full left-0 right-0 mt-1 border border-[var(--color-border-subtle)] bg-[var(--color-dark-chassis)] hidden z-50" data-astro-cid-d5ighuuu> <button id="share-copy" class="w-full text-left px-3 py-2 font-mono text-[12px] text-[var(--color-text-secondary)] hover:text-[var(--color-accent)] hover:bg-white/5 transition-colors uppercase tracking-wider" data-astro-cid-d5ighuuu>📋 Скопировать ссылку</button> <button id="share-vk" class="w-full text-left px-3 py-2 font-mono text-[12px] text-[var(--color-text-secondary)] hover:text-[var(--color-accent)] hover:bg-white/5 transition-colors uppercase tracking-wider" data-astro-cid-d5ighuuu>🔗 ВКонтакте</button> </div> </div> </div> <!-- ══════ SITE NAV ══════ --> <nav class="py-2 border-b border-[var(--color-border-subtle)]" data-astro-cid-d5ighuuu> <a href="/issues/001" class="flex items-center gap-3 px-5 py-2 font-mono text-xs text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-surface-elevated)] transition-colors uppercase tracking-wider no-underline border-l-2 border-transparent hover:border-[var(--color-accent)]" data-astro-cid-d5ighuuu> <span class="text-[var(--color-accent)] text-sm" data-astro-cid-d5ighuuu>←</span> ВЫПУСКИ </a> <a href="/" class="flex items-center gap-3 px-5 py-2 font-mono text-xs text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-surface-elevated)] transition-colors uppercase tracking-wider no-underline border-l-2 border-transparent hover:border-[var(--color-accent)]" data-astro-cid-d5ighuuu> <span class="text-[var(--color-accent)] text-sm" data-astro-cid-d5ighuuu>⌂</span>
+ГЛАВНАЯ
+</a> </nav> <!-- ══════ SECTION TOC ══════ --> <nav class="flex-1 overflow-y-auto py-4" id="sidebar-nav" data-items="[]" data-astro-cid-d5ighuuu> <ul class="space-y-1" data-astro-cid-d5ighuuu>  </ul> </nav> <!-- ══════ FOOTER ══════ --> <div class="p-6 border-t border-[var(--color-border-subtle)] text-[10px] text-[var(--color-text-tertiary)]" data-astro-cid-d5ighuuu> <div class="flex items-center gap-2" data-astro-cid-d5ighuuu> <span class="w-1.5 h-1.5 rounded-full bg-[var(--color-success)] glow-blink inline-block" data-astro-cid-d5ighuuu></span>
+STATUS: ONLINE
+</div> <div data-astro-cid-d5ighuuu>PING: 1ms</div> </div> </div>  <script>
+  (function() {
+    const nav = document.getElementById('sidebar-nav');
+    if (!nav) return;
+
+    let items;
+    try { items = JSON.parse(nav.dataset.items); } catch(e) { return; }
+
+    const allIds = [];
+    items.forEach(item => {
+      allIds.push(item.id);
+      if (item.children) item.children.forEach(c => allIds.push(c.id));
+    });
+
+    let activeId = allIds[0] || null;
+    if (activeId) {
+      const btn = nav.querySelector('[data-nav-id="' + activeId + '"]');
+      if (btn) btn.classList.add('active');
+    }
+
+    function updateActive() {
+      nav.querySelectorAll('.sidebar-item').forEach(btn => {
+        const id = btn.dataset.navId;
+        const isActive = id === activeId;
+        btn.classList.toggle('active', isActive);
+        if (isActive) {
+          const li = btn.closest('li');
+          if (li) {
+            const sub = li.querySelector('.sidebar-subitems');
+            const chev = li.querySelector('.sidebar-chevron');
+            if (sub) sub.classList.add('expanded');
+            if (chev) chev.classList.add('expanded');
+          }
+        }
+      });
+    }
+
+    function init() {
+      const scrollEl = document.getElementById('main-scroll');
+      if (!scrollEl) return;
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            activeId = entry.target.id;
+            updateActive();
+          }
+        });
+      }, {
+        root: scrollEl,
+        threshold: [0, 0.1, 0.25, 0.5],
+        rootMargin: '-10% 0px -80% 0px',
+      });
+
+      setTimeout(() => {
+        allIds.forEach(id => {
+          const el = document.getElementById(id);
+          if (el) observer.observe(el);
+        });
+      }, 100);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+
+    // Share dropdown
+    const shareToggle = document.getElementById('share-toggle');
+    const shareDropdown = document.getElementById('share-dropdown');
+    if (shareToggle && shareDropdown) {
+      shareToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        shareDropdown.classList.toggle('hidden');
+      });
+      document.addEventListener('click', () => shareDropdown.classList.add('hidden'));
+      shareDropdown.addEventListener('click', (e) => e.stopPropagation());
+
+      document.getElementById('share-copy')?.addEventListener('click', () => {
+        navigator.clipboard.writeText(window.location.href);
+        shareDropdown.classList.add('hidden');
+      });
+
+      document.getElementById('share-vk')?.addEventListener('click', () => {
+        const url = encodeURIComponent(window.location.href);
+        const title = encodeURIComponent(document.title);
+        window.open(`https://vk.com/share.php?url=${url}&title=${title}`, 'vk-share', 'width=626,height=436');
+        shareDropdown.classList.add('hidden');
+      });
+    }
+
+    nav.addEventListener('click', (e) => {
+      const btn = e.target.closest('.sidebar-item');
+      if (!btn) return;
+      const id = btn.dataset.navId;
+
+      const li = btn.closest('li');
+      if (li) {
+        const sub = li.querySelector(':scope > div > .sidebar-subitems');
+        const chev = li.querySelector(':scope > div > .sidebar-chevron');
+        if (sub?.children.length) {
+          sub.classList.toggle('expanded');
+          if (chev) chev.classList.toggle('expanded');
+        }
+      }
+
+      const section = document.getElementById(id);
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  })();
+</script> </div> </aside> <!-- CENTER CONTENT (Main) --> <main class="flex-1 overflow-y-auto relative scroll-smooth bg-boyar-black" id="main-scroll"> <article class="max-w-[1200px] mx-auto px-6 py-12 md:py-24 pt-20">    <div class="longread-template"> <!-- ═══ HERO ═══ --> <section id="hero" class="min-h-screen relative overflow-hidden"> <div class="watermark wm-1" aria-hidden="true">TEMPLATE</div> <div class="watermark wm-2" aria-hidden="true">NEW</div> <div class="watermark wm-3" aria-hidden="true">LONGREAD</div> <div class="relative z-10 flex flex-col justify-center min-h-screen py-12 px-6"> <div class="w-full max-w-[720px]"> <!-- Meta line --> <div class="font-mono text-xs text-white/25 uppercase tracking-[0.4em] mb-8 leading-relaxed">
+Вып. #000<span class="text-white/8 mx-1.5">//</span>Июнь 2026<span class="text-white/8 mx-1.5">//</span> <span class="text-[var(--color-accent)] mx-1">●</span>
+ТЕСТ<span class="text-white/8 mx-1.5">//</span>Автор: <a href="/founder" class="hover:text-white/30 transition-colors">Евгений Кайзин</a> </div> <!-- Tag badge --> <div class="inline-block px-4 py-1.5 bg-[var(--color-accent)] text-[#0a0a0a] font-mono text-sm font-bold uppercase -skew-x-12 mb-8"> <span class="inline-block skew-x-12">ШАБЛОН</span> </div> <!-- Two-tier title --> <h1 class="flex flex-col"> <span class="font-serif italic font-normal text-[clamp(1.35rem,2.8vw,1.9rem)] leading-[1.2] text-white/55 mb-1 tracking-[-0.01em]">
+Скелет нового лонгрида —
+</span> <span class="font-industrial text-[clamp(4rem,10vw,7.5rem)] font-bold uppercase leading-[0.85] tracking-[-0.01em] mb-4 text-gradient-template">
+TEMPLATE
+</span> </h1> <!-- Subtitle --> <p class="font-sans text-[1.3rem] font-normal leading-[1.6] text-white/60 max-w-[520px] mb-14">
+Пустая заготовка с работающей <em>атмосферой</em>, сайдбаром и CSS-темой. Точки роста для разработки скина.
+</p> <!-- Gradient divider --> <hr class="w-full h-px border-0 bg-gradient-to-r from-transparent via-[var(--color-accent)]/15 to-transparent"> </div> </div> </section> <!-- ═══ CONTENT PLACEHOLDER ═══ --> <section id="content" class="min-h-[50vh] flex items-center justify-center"> <div class="text-center font-mono text-sm text-white/15 tracking-[0.2em] uppercase"> <p>[ СЕКЦИИ БУДУТ ЗДЕСЬ ]</p> <p class="text-[10px] mt-2 text-white/08">следующий этап пайплайна</p> </div> </section> </div>  </article> <!-- Footer within scroll area --> <footer class="mt-24 pb-12 text-center font-mono border-t border-boyar-green/10 pt-8 max-w-[800px] mx-auto"> <p class="text-xs tracking-[0.12em] uppercase text-boyar-green/20 mb-2">
+SYS: <span class="text-boyar-green/50">ONLINE</span> <span class="text-boyar-green/10 mx-2">//</span>
+DOC-ID: FPS-FT-105
+<span class="text-boyar-green/10 mx-2">//</span>
+CLASSIFICATION: <span class="text-boyar-red/40">RESTRICTED</span> <span class="text-boyar-green/10 mx-2">//</span>
+ARCHIVE: ИГРОЛАБА 2026
+</p> <p class="text-[10px] tracking-[0.1em] uppercase text-boyar-green/12">
+Разработан и поддерживается <a href="/author" class="text-boyar-green/25 hover:text-boyar-green/50 transition-colors">Евгением Кайзиным</a> </p> </footer> </main> <!-- RIGHT PANEL (Context/Glossary) --> <aside class="w-80 border-l border-white/10 hidden xl:flex flex-col bg-boyar-black z-20 pt-20 p-6"> <div class="h-full"> <style>astro-island,astro-slot,astro-static-slot{display:contents}</style><script>(()=>{var e=async t=>{await(await t())()};(self.Astro||(self.Astro={})).load=e;window.dispatchEvent(new Event("astro:load"));})();</script><script>(()=>{var g=Object.defineProperty;var w=(c,s,d)=>s in c?g(c,s,{enumerable:!0,configurable:!0,writable:!0,value:d}):c[s]=d;var l=(c,s,d)=>w(c,typeof s!="symbol"?s+"":s,d);var E=new Set(["__proto__","constructor","prototype"]);{let c={0:t=>y(t),1:t=>d(t),2:t=>new RegExp(t),3:t=>new Date(t),4:t=>new Map(d(t)),5:t=>new Set(d(t)),6:t=>BigInt(t),7:t=>new URL(t),8:t=>new Uint8Array(t),9:t=>new Uint16Array(t),10:t=>new Uint32Array(t),11:t=>Number.POSITIVE_INFINITY*t},s=t=>{let[p,e]=t;return p in c?c[p](e):void 0},d=t=>t.map(s),y=t=>typeof t!="object"||t===null?t:Object.fromEntries(Object.entries(t).map(([p,e])=>[p,s(e)]));class f extends HTMLElement{constructor(){super(...arguments);l(this,"Component");l(this,"hydrator");l(this,"hydrate",async()=>{var b;if(!this.hydrator||!this.isConnected)return;let e=(b=this.parentElement)==null?void 0:b.closest("astro-island[ssr]");if(e){e.addEventListener("astro:hydrate",this.hydrate,{once:!0});return}let n=this.querySelectorAll("astro-slot"),r={},i=this.querySelectorAll("template[data-astro-template]");for(let o of i){let a=o.closest(this.tagName);a!=null&&a.isSameNode(this)&&(r[o.getAttribute("data-astro-template")||"default"]=o.innerHTML,o.remove())}for(let o of n){let a=o.closest(this.tagName);a!=null&&a.isSameNode(this)&&(r[o.getAttribute("name")||"default"]=o.innerHTML)}let u;try{u=this.hasAttribute("props")?y(JSON.parse(this.getAttribute("props"))):{}}catch(o){let a=this.getAttribute("component-url")||"<unknown>",v=this.getAttribute("component-export");throw v&&(a+=` (export ${v})`),console.error(`[hydrate] Error parsing props for component ${a}`,this.getAttribute("props"),o),o}let h;await this.hydrator(this)(this.Component,u,r,{client:this.getAttribute("client")}),this.removeAttribute("ssr"),this.dispatchEvent(new CustomEvent("astro:hydrate"))});l(this,"unmount",()=>{this.isConnected||this.dispatchEvent(new CustomEvent("astro:unmount"))})}disconnectedCallback(){document.removeEventListener("astro:after-swap",this.unmount),document.addEventListener("astro:after-swap",this.unmount,{once:!0})}connectedCallback(){if(!this.hasAttribute("await-children")||document.readyState==="interactive"||document.readyState==="complete")this.childrenConnectedCallback();else{let e=()=>{document.removeEventListener("DOMContentLoaded",e),n.disconnect(),this.childrenConnectedCallback()},n=new MutationObserver(()=>{var r;((r=this.lastChild)==null?void 0:r.nodeType)===Node.COMMENT_NODE&&this.lastChild.nodeValue==="astro:end"&&(this.lastChild.remove(),e())});n.observe(this,{childList:!0}),document.addEventListener("DOMContentLoaded",e)}}async childrenConnectedCallback(){let e=this.getAttribute("before-hydration-url");e&&await import(e),this.start()}getRetryImportUrl(e){let n=new URL(e,document.baseURI),r=`astro-retry=${Date.now()}`,i=n.hash.replace(/^#/,"");return n.hash=i?`${i}&${r}`:r,n.toString()}async importWithRetry(e){try{return await import(e)}catch(n){return await new Promise(r=>setTimeout(r,1e3)),import(this.getRetryImportUrl(e))}}handleHydrationError(e){let n=this.getAttribute("component-url"),r=new CustomEvent("astro:hydration-error",{cancelable:!0,bubbles:!0,composed:!0,detail:{error:e,componentUrl:n}});this.dispatchEvent(r)&&console.error(`[astro-island] Error hydrating ${n}`,e)}async start(){let e=JSON.parse(this.getAttribute("opts")),n=this.getAttribute("client");if(Astro[n]===void 0){window.addEventListener(`astro:${n}`,()=>this.start(),{once:!0});return}try{await Astro[n](async()=>{let r=this.getAttribute("renderer-url");try{let[i,{default:u}]=await Promise.all([this.importWithRetry(this.getAttribute("component-url")),r?this.importWithRetry(r):Promise.resolve({default:()=>()=>{}})]),h=this.getAttribute("component-export")||"default";if(h.includes(".")){this.Component=i;for(let m of h.split(".")){if(E.has(m)||!this.Component||typeof this.Component!="object"&&typeof this.Component!="function"||!Object.hasOwn(this.Component,m))throw new Error(`Invalid component export path: ${h}`);this.Component=this.Component[m]}}else{if(E.has(h))throw new Error(`Invalid component export path: ${h}`);this.Component=i[h]}return this.hydrator=u,this.hydrate}catch(i){return this.handleHydrationError(i),()=>{}}},e,this)}catch(r){this.handleHydrationError(r)}}attributeChangedCallback(){this.hydrate()}}l(f,"observedAttributes",["props"]),customElements.get("astro-island")||customElements.define("astro-island",f)}})();</script><astro-island uid="ZKNuVv" component-url="/_astro/Glossary.DNoGsTB-.js" component-export="default" renderer-url="/_astro/client.svelte.RMaVQVOK.js" props="{}" ssr client="load" opts="{&quot;name&quot;:&quot;Glossary&quot;,&quot;value&quot;:true}" await-children><!--[--><div class="h-full flex flex-col relative"><div class="text-[10px] uppercase font-mono tracking-widest text-white/30 mb-6 border-b border-white/10 pb-2">Context / Data</div> <!--[-1--><div class="flex-1 flex items-center justify-center text-center opacity-20"><div class="font-mono text-xs">[AWAITING INPUT]<br/> HOVER OVER HIGHLIGHTED<br/>TERMS TO ANALYZE</div></div><!--]--> <div class="mt-auto h-24 w-full border border-white/10 p-2 opacity-50"><svg width="100%" height="100%" viewBox="0 0 200 100" class="stroke-white/20 fill-none" preserveAspectRatio="none"><path d="M0,50 Q50,0 100,50 T200,50" vector-effect="non-scaling-stroke"></path><path d="M0,50 Q50,100 100,50 T200,50" vector-effect="non-scaling-stroke"></path><line x1="100" y1="0" x2="100" y2="100" vector-effect="non-scaling-stroke"></line></svg></div></div><!--]--><!--astro:end--></astro-island> </div> </aside> </div> <!-- Mobile Nav Toggle (Placeholder) --> <div class="fixed bottom-6 right-6 md:hidden z-50"> <button class="bg-boyar-red text-black font-mono p-3 border border-white hover:bg-white hover:text-black transition-colors">
+MENU
+</button> </div>  <div class="scan-line"></div> <!-- ═══════════ L2: ARCHIVE MARKINGS ═══════════ --> <div id="mark-tl" class="fixed pointer-events-none z-[1] top-[14px] left-[14px] font-mono text-[11px] tracking-[0.08em] whitespace-nowrap" style="color: rgba(255,255,255,0.04); transform: rotate(-90deg); transform-origin: top left;">
+BUILD:ISSUE-ALPHA
+</div> <div id="mark-br" class="fixed pointer-events-none z-[1] bottom-[20px] right-[20px] font-mono text-[11px] tracking-[0.08em] whitespace-nowrap text-right" style="color: rgba(255,255,255,0.04);">
+CHECKSUM:0xF3A1C9E2
+</div> <div class="fixed top-1/2 -left-0.5 pointer-events-none z-[1] font-mono text-[9px] tracking-[0.2em] whitespace-nowrap" style="color: rgba(255,51,68,0.06); transform: rotate(-90deg) translateX(-50%);">
+CLASSIFICATION: RESTRICTED · CLEARANCE: ENGINEERING
+</div> <script type="module">const r=document.getElementById("main-scroll"),l=document.getElementById("progress-bar");r&&l&&r.addEventListener("scroll",()=>{const n=r.scrollTop,e=r.scrollHeight-r.clientHeight,c=n/e*100;l.style.width=c+"%"});(function(){var n=["mark-tl","mark-br"],e;function c(){n.forEach(function(t){var o=document.getElementById(t);o&&(o.style.color="rgba(255,255,255,0.08)")})}function s(){n.forEach(function(t){var o=document.getElementById(t);o&&(o.style.color="rgba(255,255,255,0.04)")}),clearTimeout(e),e=setTimeout(c,1e4)}["mousemove","scroll","keydown"].forEach(function(t){document.addEventListener(t,s,{passive:!0})}),e=setTimeout(c,1e4)})();</script> </body> </html>
