@@ -1,0 +1,57 @@
+# ИгроЛаба (pekaboyare.ru)
+
+> Независимая лаборатория исследования игрового железа. Честные обзоры, сборки и база знаний для ПК-энтузиастов. Все материалы проходят инженерную верификацию.
+
+## О проекте
+
+ИгроЛаба — российский онлайн-журнал о компьютерном железе, основанный Евгением Кайзиным. Специализация: инженерный анализ комплектующих, разоблачение маркетинговых мифов, оптимальные сборки ПК на любой бюджет. Контент создаётся с использованием AI-агентов под контролем human-редактора.
+
+## Выпуск №001 — Фреймтайм
+
+- [Выпуск №001](https://pekaboyare.ru/issues/001/) — Главная тема: почему 85 FPS плавнее 144. Журнальный формат с рубриками.
+- [Фреймтайм: 85 vs 144 FPS](https://pekaboyare.ru/articles/frametime-85-vs-144/) — Центральный материал. Как frametime переворачивает понимание плавности. 9 глав.
+- [DDR5 tRFC/tREFI](https://pekaboyare.ru/articles/dram-refresh-trefi) — Почему 48 ГБ могут работать хуже 32 ГБ. Анализ таймингов регенерации DRAM. 11 глав.
+- [Oasis Node v1.2](https://pekaboyare.ru/cases/oasis-node/) — Инженерный кейс: бесшумная LLM-станция за $1500 в жаре 35°C. Выбор GPU, пороговая стратегия охлаждения.
+- [Разбор ПК с Авито за 75 000 ₽](https://pekaboyare.ru/reviews/razbor-pk-s-marketpleysa-za-75k/) — Техно-тру-крайм: вскрытие игрового ПК с маркетплейса.
+
+## База знаний GPU
+
+- [Видеокарты GPU — рейтинг и обзоры](https://pekaboyare.ru/hardware/gpu/) — Инженерный рейтинг видеокарт по 6 измерениям. Методология оценки, сравнение архитектур.
+- [NVIDIA GeForce RTX 4090](https://pekaboyare.ru/hardware/gpu/nvidia-geforce-rtx-4090/) — Флагманский сегмент. AD102, 24 ГБ GDDR6X, 450 Вт. Архитектура Ada Lovelace, DLSS 3, Ray Tracing.
+- [NVIDIA GeForce RTX 4080 Super](https://pekaboyare.ru/hardware/gpu/nvidia-geforce-rtx-4080-super/) — Практический потолок Ada. AD103-400 Full Die, 16 ГБ GDDR6X 23 Гбит/с, лучшая энергоэффективность в 4K.
+- [NVIDIA GeForce RTX 4070 Ti Super](https://pekaboyare.ru/hardware/gpu/nvidia-geforce-rtx-4070-ti-super/) — 1440p-чемпион. AD103-275, 16 ГБ GDDR6X, лучший баланс цены и технологий Ada Lovelace.
+- [NVIDIA GeForce RTX 4070 Super](https://pekaboyare.ru/hardware/gpu/nvidia-geforce-rtx-4070-super/) — 1440p sweet spot. AD104-350 Bin-1 («nearly perfect die»), 12 ГБ GDDR6X, 220 Вт. ITX-совместимость.
+- [NVIDIA GeForce RTX 4060 Ti](https://pekaboyare.ru/hardware/gpu/nvidia-geforce-rtx-4060-ti/) — Скальпель для 1080p. AD106, 32 МБ L2-кэш, 115 Вт реальных, DLSS 3. Апгрейд «вставил и забыл».
+
+## Процессоры
+
+- [Процессоры — рейтинг и обзоры](https://pekaboyare.ru/hardware/processors/)
+- [AMD Ryzen 7 7800X3D](https://pekaboyare.ru/hardware/processors/ryzen-7-7800x3d/) — Игровой король. 3D V-Cache, 8 ядер Zen 4, лучший FPS на ватт.
+- [AMD Ryzen 9 7950X](https://pekaboyare.ru/hardware/processors/ryzen-9-7950x/) — Рабочая станция. 16 ядер Zen 4, двухчиплетный дизайн.
+- [AMD Ryzen 7 7700X](https://pekaboyare.ru/hardware/processors/ryzen-7-7700x/) — 8 ядер Zen 4, оптимальный выбор для 1440p-гейминга.
+
+## Материнские платы
+
+- [Материнские платы — база знаний](https://pekaboyare.ru/hardware/motherboards/)
+- [MSI B650 Tomahawk](https://pekaboyare.ru/hardware/motherboards/msi-b650-tomahawk/)
+- [Gigabyte B650 Aorus Elite AX](https://pekaboyare.ru/hardware/motherboards/gigabyte-b650-aorus-elite-ax/)
+
+## Сборки и связки
+
+- [Каталог сборок ПК](https://pekaboyare.ru/builds/)
+- [RTX 4070 Ti SUPER + Ryzen 7 7800X3D](https://pekaboyare.ru/hardware/cpu-gpu-bundles/rtx-4070-ti-super-ryzen-7-7800x3d-review/)
+
+## Методология
+
+- **Журнальный формат**: выпуски с рубриками (БАЗА, ТРУ-КРАЙМ, КЕЙСЫ, ДАЙДЖЕСТ). Каждый материал — познавательный маршрут.
+- **Инженерный Индекс**: методология оценки железа по 6 измерениям (рендер, RT, эффективность, цена, экосистема, connectivity).
+- **Верификация**: все данные проверяются вручную. ИИ используется для анализа данных и структурирования информации.
+
+## Обновления
+
+База знаний пополняется еженедельно. Последнее обновление: май 2026. Выпуск №001 — май 2026. Активно развиваются разделы GPU и процессоров.
+
+## Контакты
+
+- Telegram: https://t.me/kaizin_robotix
+- Сайт: https://pekaboyare.ru

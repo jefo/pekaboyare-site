@@ -1,0 +1,26 @@
+User-agent: *
+Allow: /
+
+# AI Crawlers - allow them to index for AI search optimization
+User-agent: GPTBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: YouBot
+Allow: /
+
+# Disallow specific paths if necessary
+Disallow: /ui-kit-demo
+Disallow: /estimate/
+Disallow: /_astro/
+Disallow: /cdn-cgi/
+
+Sitemap: https://pekaboyare.ru/sitemap-index.xml

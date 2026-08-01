@@ -1,0 +1,1 @@
+function i(e){let s=e;const n=new Set;return{subscribe(t){return n.add(t),t(s),()=>n.delete(t)},set(t){s=t;for(const r of n)r(t)},get(){return s}}}const a=i(null),c=i(null),o=i(null);function l(e){a.set(e),c.set(null),o.set(null)}function u(e){c.set(e)}function d(e){o.set(e)}export{a,c as b,o as c,u as d,d as e,l as s};

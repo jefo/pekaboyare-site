@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Рациональный флагман 1440p — Telemetry Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Teko:wght@600;700&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════════════════════
+   TACTICAL TELEMETRY CRT TERMINAL
+   Industrial Brutalist — Dark Substrate
+   ══════════════════════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#0A0A0A;
+  --surface:#121212;
+  --surface-alt:#181818;
+  --phosphor:#EAEAEA;
+  --phosphor-dim:rgba(234,234,234,0.55);
+  --phosphor-low:rgba(234,234,234,0.28);
+  --accent:#ea8000;
+  --accent-glow:rgba(234,128,0,0.18);
+  --border:rgba(255,255,255,0.08);
+  --border-active:rgba(255,255,255,0.16);
+  --red:#E61919;
+  --green:#00E676;
+  --amber:#F0C040;
+  --grid:40px;
+}
+
+/* ── CRT Screen ── */
+body{
+  background:#050505;color:var(--phosphor);
+  font-family:'IBM Plex Mono',monospace;
+  display:flex;align-items:center;justify-content:center;
+  min-height:100vh;overflow:hidden;
+}
+
+/* ── Stage — CRT canvas ── */
+.stage{
+  position:relative;width:1920px;height:1080px;
+  background:var(--bg);overflow:hidden;
+  transform-origin:top left;
+  font-family:'IBM Plex Mono',monospace;
+}
+
+/* ═══ CRT NOISE OVERLAY ═══ */
+.stage::before{
+  content:'';position:absolute;inset:0;z-index:20;pointer-events:none;
+  opacity:0.18;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  background-size:256px 256px;
+}
+
+/* ── Scanlines ── */
+.scanlines{
+  position:absolute;inset:0;z-index:18;pointer-events:none;
+  background:repeating-linear-gradient(
+    0deg,
+    transparent,transparent 2px,
+    rgba(0,0,0,0.09) 2px,rgba(0,0,0,0.09) 4px
+  );
+}
+
+/* ── Vignette ── */
+.stage::after{
+  content:'';position:absolute;inset:0;z-index:19;pointer-events:none;
+  background:radial-gradient(ellipse at center,transparent 55%,rgba(0,0,0,0.45) 100%);
+}
+
+/* ══════════════════════════════════════════════════════════
+   SCENE BASE
+   ══════════════════════════════════════════════════════════ */
+.scene{
+  position:absolute;inset:0;display:none;flex-direction:column;
+  justify-content:center;padding:80px 120px;
+}
+
+/* ══════════════════════════════════════════════════════════
+   S0: TITLE — Tactical Header
+   ══════════════════════════════════════════════════════════ */
+.cs-line{
+  position:absolute;top:44px;left:44px;right:44px;
+  height:1px;background:var(--border);
+}
+.cs-line::before{content:'+';position:absolute;top:-10px;left:0;font-size:12px;color:var(--phosphor-low);}
+.cs-line::after{content:'+';position:absolute;top:-10px;right:0;font-size:12px;color:var(--phosphor-low);}
+
+.coords{
+  position:absolute;top:52px;left:52px;
+  font-family:'IBM Plex Mono',monospace;font-size:10px;
+  color:var(--phosphor-low);letter-spacing:0.08em;
+  text-transform:uppercase;
+}
+.coords-right{left:auto;right:52px;}
+
+.title-block{position:relative;z-index:2;}
+.title-bracket{
+  font-family:'IBM Plex Mono',monospace;font-size:13px;
+  color:var(--accent);letter-spacing:0.12em;text-transform:uppercase;
+  margin-bottom:18px;
+}
+.title-bracket::before{content:'[ '}
+.title-bracket::after{content:' ]'}
+
+.title-main{
+  font-family:'Teko',sans-serif;font-size:132px;font-weight:700;
+  line-height:0.88;text-transform:uppercase;letter-spacing:-0.03em;
+  color:var(--phosphor);
+  text-shadow:0 0 30px rgba(234,234,234,0.08),0 0 60px rgba(234,234,234,0.03);
+}
+.title-main span{color:var(--accent);}
+
+.title-data{
+  display:flex;gap:40px;margin-top:28px;align-items:flex-end;
+}
+.title-datum{
+  display:flex;flex-direction:column;gap:6px;
+  padding:16px 0;border-top:1px solid var(--border);
+}
+.title-datum .td-val{
+  font-family:'IBM Plex Mono',monospace;font-size:18px;
+  color:var(--phosphor);letter-spacing:0.04em;
+}
+.title-datum .td-lbl{
+  font-family:'IBM Plex Mono',monospace;font-size:9px;
+  color:var(--phosphor-low);letter-spacing:0.1em;text-transform:uppercase;
+}
+
+.title-divider{
+  width:1px;height:50px;background:var(--accent);align-self:flex-end;margin-bottom:6px;
+}
+
+/* ══════════════════════════════════════════════════════════
+   SECTION HEADERS — Industrial
+   ══════════════════════════════════════════════════════════ */
+.sec-header{
+  display:flex;align-items:center;gap:16px;margin-bottom:32px;
+}
+.sec-index{
+  font-family:'IBM Plex Mono',monospace;font-size:12px;
+  color:var(--accent);letter-spacing:0.12em;
+}
+.sec-index::before{content:'>>> '}
+.sec-title{
+  font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:600;
+  color:var(--phosphor);letter-spacing:0.06em;text-transform:uppercase;
+}
+.sec-hr{flex:1;height:1px;background:var(--border);min-width:40px;}
+
+/* ══════════════════════════════════════════════════════════
+   S1: MISSION — Telemetry Data List
+   ══════════════════════════════════════════════════════════ */
+.mission-block{
+  border:1px solid var(--border);padding:40px 48px;
+  display:grid;grid-template-columns:1fr 1fr;gap:1px;
+  background:var(--border);
+}
+.mission-item{
+  background:var(--surface);padding:20px 28px;
+  display:flex;align-items:center;gap:16px;
+}
+.mi-label{
+  font-size:10px;color:var(--phosphor-low);letter-spacing:0.1em;
+  text-transform:uppercase;min-width:160px;
+}
+.mi-value{
+  font-size:17px;font-weight:500;color:var(--phosphor);letter-spacing:0.03em;
+}
+.mi-value .accent{color:var(--accent);}
+
+/* ══════════════════════════════════════════════════════════
+   S2: CONSTRAINTS — Data Quadrants
+   ══════════════════════════════════════════════════════════ */
+.constraint-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
+  background:var(--border);border:1px solid var(--border);
+}
+.constraint-cell{
+  background:var(--surface);padding:36px 32px;
+  display:flex;flex-direction:column;justify-content:space-between;
+  min-height:220px;
+}
+.cc-value{
+  font-family:'IBM Plex Mono',monospace;font-size:42px;font-weight:600;
+  color:var(--phosphor);line-height:1;letter-spacing:-0.01em;
+}
+.cc-value .unit{font-size:22px;font-weight:400;color:var(--phosphor-dim);}
+.cc-label{
+  font-size:10px;color:var(--phosphor-low);letter-spacing:0.1em;
+  text-transform:uppercase;margin-top:8px;
+}
+.cc-mark{
+  font-size:9px;color:var(--accent);letter-spacing:0.15em;
+  text-transform:uppercase;margin-top:12px;
+  display:flex;align-items:center;gap:6px;
+}
+.cc-mark::before{content:'+';}
+
+/* ══════════════════════════════════════════════════════════
+   S3: ARCHITECTURE — Path Comparison
+   ══════════════════════════════════════════════════════════ */
+.arch-grid{
+  display:grid;grid-template-columns:1fr auto 1fr;gap:1px;
+  background:var(--border);border:1px solid var(--border);
+}
+.arch-card{
+  background:var(--surface);padding:40px;
+  display:flex;flex-direction:column;
+}
+.arch-card.rejected{opacity:0.35;position:relative;}
+.arch-card.rejected::after{
+  content:'REJECTED';position:absolute;top:20px;right:24px;
+  font-size:10px;color:var(--red);letter-spacing:0.15em;
+  border:1px solid var(--red);padding:4px 10px;
+}
+.arch-card.selected{border-left:3px solid var(--accent);}
+.arch-card.selected::after{
+  content:'SELECTED';position:absolute;top:20px;right:24px;
+  font-size:10px;color:var(--accent);letter-spacing:0.15em;
+  border:1px solid var(--accent);padding:4px 10px;
+}
+.arch-path-label{
+  font-size:10px;color:var(--phosphor-low);letter-spacing:0.15em;
+  text-transform:uppercase;margin-bottom:16px;
+}
+.arch-cpu{
+  font-family:'IBM Plex Mono',monospace;font-size:32px;font-weight:600;
+  color:var(--phosphor);line-height:1.1;
+}
+.arch-gpu{
+  font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:500;
+  color:var(--phosphor-dim);margin-top:6px;
+}
+.arch-cost{
+  font-size:12px;color:var(--phosphor-low);margin-top:16px;
+  padding-top:16px;border-top:1px solid var(--border);
+}
+
+.arch-vs-col{
+  background:var(--surface);display:flex;align-items:center;
+  justify-content:center;padding:0 28px;min-width:60px;
+  font-size:14px;color:var(--phosphor-low);letter-spacing:0.2em;
+}
+
+.insight-block{
+  margin-top:1px;padding:32px 40px;
+  background:var(--surface);border:1px solid var(--border);
+  border-left:3px solid var(--accent);
+}
+.ib-delta{
+  font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:600;
+  color:var(--accent);letter-spacing:0.04em;text-transform:uppercase;
+}
+.ib-delta::before{content:'>>> '}
+.ib-body{
+  font-size:15px;color:var(--phosphor-dim);line-height:1.55;
+  margin-top:10px;max-width:1000px;
+}
+
+/* ══════════════════════════════════════════════════════════
+   S4: PRIMARY — Decision Cards
+   ══════════════════════════════════════════════════════════ */
+.dec-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:1px;
+  background:var(--border);border:1px solid var(--border);
+}
+.dec-card{
+  background:var(--surface);padding:36px 40px;
+  display:flex;flex-direction:column;
+}
+.dec-card.cpu{border-left:3px solid var(--accent);}
+.dec-card.gpu{border-left:3px solid var(--accent);}
+.dc-chip{
+  font-size:10px;color:var(--accent);letter-spacing:0.15em;
+  text-transform:uppercase;margin-bottom:14px;
+}
+.dc-name{
+  font-family:'IBM Plex Mono',monospace;font-size:36px;font-weight:600;
+  color:var(--phosphor);line-height:1;
+}
+.dc-reason{
+  font-size:14px;color:var(--phosphor-dim);line-height:1.5;
+  margin-top:14px;margin-bottom:20px;
+}
+.dc-metrics{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+  background:var(--border);margin-top:auto;
+}
+.dc-met{
+  background:var(--surface-alt);padding:14px 18px;
+}
+.dcm-val{
+  font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:600;
+  color:var(--phosphor);line-height:1.2;
+}
+.dcm-lbl{
+  font-size:9px;color:var(--phosphor-low);letter-spacing:0.08em;
+  text-transform:uppercase;margin-top:2px;
+}
+.dcm-delta{
+  font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:600;
+}
+.dcm-delta.neg{color:var(--green);}
+.dcm-delta.pos{color:var(--accent);}
+
+/* ══════════════════════════════════════════════════════════
+   S5: SUBSYSTEMS — Component Strip
+   ══════════════════════════════════════════════════════════ */
+.comp-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
+  background:var(--border);border:1px solid var(--border);
+}
+.comp-cell{
+  background:var(--surface);padding:32px 28px;
+  display:flex;flex-direction:column;
+}
+.cc-name{
+  font-family:'IBM Plex Mono',monospace;font-size:22px;font-weight:600;
+  color:var(--phosphor);line-height:1;
+}
+.cc-model{
+  font-size:11px;color:var(--phosphor-low);letter-spacing:0.05em;
+  margin-top:6px;text-transform:uppercase;
+}
+.cc-why{
+  font-size:13px;color:var(--phosphor-dim);line-height:1.5;
+  margin-top:12px;padding-top:12px;border-top:1px solid var(--border);
+}
+
+/* ══════════════════════════════════════════════════════════
+   S6: TELEMETRY — Performance Bars
+   ══════════════════════════════════════════════════════════ */
+.tele-grid{
+  display:grid;grid-template-columns:1.4fr 0.6fr;gap:1px;
+  background:var(--border);border:1px solid var(--border);
+}
+.tele-bars{
+  background:var(--surface);padding:32px 36px;
+}
+.tele-section-label{
+  font-size:10px;color:var(--accent);letter-spacing:0.12em;
+  text-transform:uppercase;margin-bottom:18px;
+}
+.tele-section-label::before{content:'[ '}
+.tele-section-label::after{content:' ]'}
+
+.perf-row{
+  display:flex;align-items:center;gap:14px;margin-bottom:14px;
+}
+.perf-game{
+  font-size:15px;color:var(--phosphor);width:240px;flex-shrink:0;
+  letter-spacing:0.02em;
+}
+.perf-game .sub{font-size:10px;color:var(--phosphor-low);display:block;margin-top:2px;}
+.perf-track{
+  flex:1;height:20px;background:var(--surface-alt);
+  position:relative;overflow:hidden;
+}
+.perf-track::after{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(
+    90deg,
+    transparent,transparent 19px,
+    var(--border) 19px,var(--border) 20px
+  );
+}
+.perf-fill{
+  height:100%;position:absolute;left:0;top:0;
+  background:var(--accent);opacity:0.55;
+  transition:width 0.6s ease;
+}
+.perf-fill.green{background:var(--green);opacity:0.5;}
+.perf-val{
+  font-family:'IBM Plex Mono',monospace;font-size:18px;font-weight:600;
+  color:var(--phosphor);width:48px;text-align:right;
+}
+
+.tele-stats{
+  background:var(--surface);padding:32px;
+  display:flex;flex-direction:column;gap:1px;
+}
+.ts-stat{
+  background:var(--surface-alt);padding:20px;
+  flex:1;display:flex;flex-direction:column;justify-content:center;
+}
+.ts-val{
+  font-family:'IBM Plex Mono',monospace;font-size:26px;font-weight:600;
+  color:var(--phosphor);line-height:1.1;
+}
+.ts-lbl{
+  font-size:9px;color:var(--phosphor-low);letter-spacing:0.1em;
+  text-transform:uppercase;margin-top:4px;
+}
+
+/* ══════════════════════════════════════════════════════════
+   S7: LIMITS — Tradeoff Cards
+   ══════════════════════════════════════════════════════════ */
+.tradeoff-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+  background:var(--border);border:1px solid var(--border);
+}
+.to-card{
+  background:var(--surface);padding:32px;
+}
+.to-scene{
+  font-size:17px;font-weight:600;color:var(--phosphor);
+  margin-bottom:10px;letter-spacing:0.02em;
+}
+.to-impact{
+  font-family:'IBM Plex Mono',monospace;font-size:11px;
+  color:var(--amber);letter-spacing:0.06em;text-transform:uppercase;
+}
+.to-detail{
+  font-size:14px;color:var(--phosphor-dim);line-height:1.5;
+  margin-top:10px;padding-top:10px;border-top:1px solid var(--border);
+}
+
+/* ══════════════════════════════════════════════════════════
+   S8: EXCLUSIONS — Anti-list
+   ══════════════════════════════════════════════════════════ */
+.exclude-list{
+  display:flex;flex-direction:column;gap:1px;
+  background:var(--border);border:1px solid var(--border);
+}
+.exclude-item{
+  background:var(--surface);padding:24px 32px;
+  display:flex;align-items:flex-start;gap:16px;
+}
+.ei-mark{
+  font-family:'IBM Plex Mono',monospace;font-size:12px;
+  color:var(--red);letter-spacing:0.1em;flex-shrink:0;min-width:20px;
+}
+.ei-text{
+  font-size:17px;color:var(--phosphor-dim);line-height:1.5;
+}
+.ei-text strong{color:var(--phosphor);font-weight:500;}
+
+/* ══════════════════════════════════════════════════════════
+   S9: OPERATOR PROFILE
+   ══════════════════════════════════════════════════════════ */
+.op-block{
+  border:1px solid var(--border);padding:40px 44px;
+  background:var(--surface);
+  border-left:3px solid var(--accent);
+}
+.op-label{
+  font-size:11px;color:var(--accent);letter-spacing:0.12em;
+  text-transform:uppercase;margin-bottom:14px;
+}
+.op-label::before{content:'[ '}
+.op-label::after{content:' ]'}
+
+.op-text{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:18px;color:var(--phosphor);line-height:1.6;max-width:1200px;
+}
+.op-text strong{color:var(--accent);font-weight:600;}
+
+.footer-data{
+  display:flex;justify-content:space-between;margin-top:28px;
+  padding-top:20px;border-top:1px solid var(--border);
+}
+.fd-left{
+  font-size:10px;color:var(--phosphor-low);letter-spacing:0.1em;text-transform:uppercase;
+}
+.fd-right{
+  font-family:'IBM Plex Mono',monospace;font-size:10px;
+  color:rgba(255,255,255,0.08);letter-spacing:0.12em;
+}
+
+/* ══════════════════════════════════════════════════════════
+   RING CLOSE — Title Return
+   ══════════════════════════════════════════════════════════ */
+.ring-title{align-items:center;justify-content:center;text-align:center;}
+.ring-title .title-bracket{justify-content:center;}
+.ring-title .title-main{font-size:104px;}
+.ring-title .title-data{justify-content:center;}
+
+/* ══════════════════════════════════════════════════════════
+   OVERLAY — static burst transition
+   ══════════════════════════════════════════════════════════ */
+.overlay{
+  position:absolute;inset:0;z-index:15;pointer-events:none;
+  background:var(--bg);opacity:0;
+}
+
+/* ══════════════════════════════════════════════════════════
+   CONTROLS — Telemetry bar
+   ══════════════════════════════════════════════════════════ */
+.controls{
+  position:fixed;bottom:0;left:0;right:0;z-index:100;
+  display:flex;gap:0;align-items:center;
+  background:var(--surface);border-top:1px solid var(--border);
+  padding:10px 24px;font-family:'IBM Plex Mono',monospace;
+}
+.controls button{
+  background:0;border:1px solid var(--border);color:var(--phosphor-dim);
+  font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.1em;
+  padding:6px 14px;cursor:pointer;text-transform:uppercase;margin-right:8px;
+}
+.controls button:hover{color:var(--phosphor);border-color:var(--border-active);}
+.controls button.active{color:var(--accent);border-color:var(--accent);}
+.progress-wrap{
+  flex:1;height:2px;background:var(--border);margin:0 16px;position:relative;
+}
+.progress-fill{height:100%;background:var(--accent);width:0;transition:none;}
+.scene-marker{
+  position:absolute;top:-5px;width:1px;height:12px;
+  background:var(--border-active);transform:translateX(-0.5px);
+}
+.scene-marker.passed{background:var(--accent);opacity:0.7;}
+.timecode{
+  font-family:'IBM Plex Mono',monospace;font-size:11px;
+  color:var(--phosphor-low);min-width:60px;text-align:right;
+  letter-spacing:0.06em;
+}
+
+/* ══════════════════════════════════════════════════════════
+   ANIMATION UTILITIES
+   ══════════════════════════════════════════════════════════ */
+.phosphor-glow{text-shadow:0 0 12px var(--accent-glow);}
+
+/* Typewriter caret */
+@keyframes caret-blink{
+  0%,100%{opacity:1}
+  50%{opacity:0}
+}
+
+/* Static burst */
+@keyframes static-burst{
+  0%{filter:brightness(1) contrast(1)}
+  25%{filter:brightness(1.8) contrast(2.5)}
+  100%{filter:brightness(1) contrast(1)}
+}
+</style>
+</head>
+<body>
+
+<div class="stage" id="stage">
+
+  <!-- ═══════════════════════════════════════════════════════
+       S0: TITLE (0–6s)
+       ═══════════════════════════════════════════════════════ -->
+  <div class="scene" id="s0">
+    <div class="cs-line"></div>
+    <data class="coords" value="s0">SYS:ONLINE // 9700X+5080</data>
+    <data class="coords coords-right" value="budget">BUDGET: ~250K RUB</data>
+
+    <div class="title-block">
+      <div class="title-bracket">Рациональный флагман 1440p</div>
+      <h1 class="title-main">Рациональный<br><span>флагман</span> 1440p</h1>
+      <div class="title-data">
+        <div class="title-datum">
+          <span class="td-val">Ryzen 7 9700X</span>
+          <span class="td-lbl">Процессор</span>
+        </div>
+        <div class="title-divider"></div>
+        <div class="title-datum">
+          <span class="td-val">GeForce RTX 5080</span>
+          <span class="td-lbl">Видеокарта</span>
+        </div>
+        <div class="title-divider"></div>
+        <div class="title-datum">
+          <span class="td-val">~250 000 ₽</span>
+          <span class="td-lbl">Бюджет</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       S1: MISSION — Operational Parameters (6–12s)
+       ═══════════════════════════════════════════════════════ -->
+  <div class="scene" id="s1">
+    <div class="sec-header">
+      <span class="sec-index">SYS/01</span>
+      <span class="sec-title">Операционные параметры</span>
+      <span class="sec-hr"></span>
+    </div>
+    <dl class="mission-block">
+      <div class="mission-item">
+        <dt class="mi-label">[ Назначение ]</dt>
+        <dd class="mi-value">Игровая станция <span class="accent">1440p</span></dd>
+      </div>
+      <div class="mission-item">
+        <dt class="mi-label">[ Класс игр ]</dt>
+        <dd class="mi-value">AAA-проекты / ультра-настройки</dd>
+      </div>
+      <div class="mission-item">
+        <dt class="mi-label">[ Горизонт ]</dt>
+        <dd class="mi-value">3–4 года без апгрейда</dd>
+      </div>
+      <div class="mission-item">
+        <dt class="mi-label">[ Исключено ]</dt>
+        <dd class="mi-value">Стриминг / рендеринг / рабочие нагрузки</dd>
+      </div>
+    </dl>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       S2: CONSTRAINTS (12–18s)
+       ═══════════════════════════════════════════════════════ -->
+  <div class="scene" id="s2">
+    <div class="sec-header">
+      <span class="sec-index">SYS/02</span>
+      <span class="sec-title">Системные ограничения</span>
+      <span class="sec-hr"></span>
+    </div>
+    <div class="constraint-grid">
+      <div class="constraint-cell">
+        <div>
+          <data class="cc-value">~250<span class="unit">K</span></data>
+          <div class="cc-label">Бюджет системного блока</div>
+        </div>
+        <div class="cc-mark">РУБ</div>
+      </div>
+      <div class="constraint-cell">
+        <div>
+          <data class="cc-value">1440<span class="unit">p</span></data>
+          <div class="cc-label">Целевое разрешение</div>
+        </div>
+        <div class="cc-mark">QHD</div>
+      </div>
+      <div class="constraint-cell">
+        <div>
+          <data class="cc-value">&lt;35<span class="unit">dB</span></data>
+          <div class="cc-label">Уровень шума</div>
+        </div>
+        <div class="cc-mark">SILENT</div>
+      </div>
+      <div class="constraint-cell">
+        <div>
+          <data class="cc-value">AM5</data>
+          <div class="cc-label">Платформа</div>
+        </div>
+        <div class="cc-mark">AMD</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       S3: ARCHITECTURE — Path A vs B (18–30s)
+       ═══════════════════════════════════════════════════════ -->
+  <div class="scene" id="s3">
+    <div class="sec-header">
+      <span class="sec-index">SYS/03</span>
+      <span class="sec-title">Архитектура решения</span>
+      <span class="sec-hr"></span>
+    </div>
+    <div class="arch-grid">
+      <div class="arch-card rejected">
+        <div class="arch-path-label">Путь A</div>
+        <div class="arch-cpu">Ryzen 7 9800X3D</div>
+        <div class="arch-gpu">GeForce RTX 5070 Ti</div>
+        <data class="arch-cost" value="145000">CPU+GPU ≈ 145 000 ₽</data>
+      </div>
+      <div class="arch-vs-col">VS</div>
+      <div class="arch-card selected">
+        <div class="arch-path-label">Путь B</div>
+        <div class="arch-cpu">Ryzen 7 9700X</div>
+        <div class="arch-gpu">GeForce RTX 5080</div>
+        <data class="arch-cost" value="145000">CPU+GPU ≈ 145 000 ₽</data>
+      </div>
+    </div>
+    <div class="insight-block" id="insightBlock">
+      <div class="ib-delta">+1 класс GPU за счёт CPU без X3D</div>
+      <p class="ib-body">
+        9700X отказывается от 3D V-Cache, перекладывая <strong>15 000 ₽</strong> в RTX 5080 — видеокарту на класс выше. В 1440p прирост от GPU перевешивает потерю X3D-кэша в 9 из 10 игр.
+      </p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       S4: PRIMARY DECISIONS (30–37s)
+       ═══════════════════════════════════════════════════════ -->
+  <div class="scene" id="s4">
+    <div class="sec-header">
+      <span class="sec-index">SYS/04</span>
+      <span class="sec-title">Центральные решения</span>
+      <span class="sec-hr"></span>
+    </div>
+    <div class="dec-grid">
+      <div class="dec-card cpu">
+        <div class="dc-chip">Процессор</div>
+        <div class="dc-name">Ryzen 7 9700X</div>
+        <p class="dc-reason">Быстрый, холодный, недорогой. 65 Вт TDP — тише, проще охлаждение, меньше тепла в корпусе.</p>
+        <dl class="dc-metrics">
+          <div class="dc-met">
+            <dt class="dcm-lbl">TDP</dt>
+            <dd class="dcm-val">65 Вт</dd>
+          </div>
+          <div class="dc-met">
+            <dt class="dcm-lbl">Цена</dt>
+            <dd class="dcm-val">~25 000 ₽</dd>
+          </div>
+          <div class="dc-met">
+            <dt class="dcm-lbl">vs 9800X3D</dt>
+            <dd class="dcm-val dcm-delta neg">−15 000 ₽</dd>
+          </div>
+        </dl>
+      </div>
+      <div class="dec-card gpu">
+        <div class="dc-chip">Видеокарта</div>
+        <div class="dc-name">RTX 5080</div>
+        <p class="dc-reason">На класс выше 5070 Ti. Больше ядер, выше частота, шире шина. Каждая тысяча в GPU даёт больше FPS.</p>
+        <dl class="dc-metrics">
+          <div class="dc-met">
+            <dt class="dcm-lbl">VRAM</dt>
+            <dd class="dcm-val">16 ГБ GDDR7</dd>
+          </div>
+          <div class="dc-met">
+            <dt class="dcm-lbl">Цена</dt>
+            <dd class="dcm-val">~120 000 ₽</dd>
+          </div>
+          <div class="dc-met">
+            <dt class="dcm-lbl">vs 5070 Ti</dt>
+            <dd class="dcm-val dcm-delta pos">+15 000 ₽</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       S5: SUBSYSTEMS (37–43s)
+       ═══════════════════════════════════════════════════════ -->
+  <div class="scene" id="s5">
+    <div class="sec-header">
+      <span class="sec-index">SYS/05</span>
+      <span class="sec-title">Подсистемы</span>
+      <span class="sec-hr"></span>
+    </div>
+    <div class="comp-grid">
+      <div class="comp-cell">
+        <div class="cc-name">B850</div>
+        <div class="cc-model">MSI Tomahawk WiFi</div>
+        <div class="cc-why">Не X870. Те же PCIe 5.0. Экономия ~8 000 ₽.</div>
+      </div>
+      <div class="comp-cell">
+        <div class="cc-name">Воздух</div>
+        <div class="cc-model">Phantom Spirit 120 SE</div>
+        <div class="cc-why">Не AIO. 65 Вт не требуют водянки. Надёжнее, тише.</div>
+      </div>
+      <div class="comp-cell">
+        <div class="cc-name">North</div>
+        <div class="cc-model">Fractal Design</div>
+        <div class="cc-why">Дерево + mesh. Не FPS, а опыт: airflow, шум, эстетика.</div>
+      </div>
+      <div class="comp-cell">
+        <div class="cc-name">32 ГБ</div>
+        <div class="cc-model">DDR5-6000 CL30</div>
+        <div class="cc-why">Sweet spot AM5. EXPO — включил и забыл.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       S6: TELEMETRY — FPS + Thermals (43–52s)
+       ═══════════════════════════════════════════════════════ -->
+  <div class="scene" id="s6">
+    <div class="sec-header">
+      <span class="sec-index">SYS/06</span>
+      <span class="sec-title">Телеметрия системы</span>
+      <span class="sec-hr"></span>
+    </div>
+    <div class="tele-grid">
+      <div class="tele-bars">
+        <div class="tele-section-label">Производительность · 1440p Ultra</div>
+        <div class="perf-row">
+          <span class="perf-game">Cyberpunk 2077<span class="sub">vs 9800X3D+5070Ti: −3%</span></span>
+          <div class="perf-track"><div class="perf-fill" data-w="68"></div></div>
+          <data class="perf-val" value="95">~95</data>
+        </div>
+        <div class="perf-row">
+          <span class="perf-game">Alan Wake 2<span class="sub">vs 9800X3D+5070Ti: −1%</span></span>
+          <div class="perf-track"><div class="perf-fill" data-w="64"></div></div>
+          <data class="perf-val" value="90">~90</data>
+        </div>
+        <div class="perf-row">
+          <span class="perf-game">Baldur's Gate 3<span class="sub">vs 9800X3D+5070Ti: +15%</span></span>
+          <div class="perf-track"><div class="perf-fill green" data-w="86"></div></div>
+          <data class="perf-val" value="150">~150</data>
+        </div>
+        <div class="perf-row">
+          <span class="perf-game">COD Black Ops 6<span class="sub">vs 9800X3D+5070Ti: +18%</span></span>
+          <div class="perf-track"><div class="perf-fill green" data-w="92"></div></div>
+          <data class="perf-val" value="220">~220</data>
+        </div>
+        <div class="perf-row">
+          <span class="perf-game">Hogwarts Legacy<span class="sub">vs 9800X3D+5070Ti: −2%</span></span>
+          <div class="perf-track"><div class="perf-fill" data-w="72"></div></div>
+          <data class="perf-val" value="100">~100</data>
+        </div>
+      </div>
+      <div class="tele-stats">
+        <div class="ts-stat">
+          <output class="ts-val">60–65°C</output>
+          <div class="ts-lbl">GPU под нагрузкой</div>
+        </div>
+        <div class="ts-stat">
+          <output class="ts-val">~32 dB</output>
+          <div class="ts-lbl">Шум в играх (с 1 м)</div>
+        </div>
+        <div class="ts-stat">
+          <output class="ts-val">~420 Вт</output>
+          <div class="ts-lbl">Система под нагрузкой</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       S7: LIMITS — Tradeoffs (52–58s)
+       ═══════════════════════════════════════════════════════ -->
+  <div class="scene" id="s7">
+    <div class="sec-header">
+      <span class="sec-index">SYS/07</span>
+      <span class="sec-title">Цена выбранной стратегии</span>
+      <span class="sec-hr"></span>
+    </div>
+    <div class="tradeoff-grid">
+      <div class="to-card">
+        <div class="to-scene">1080p / Competitive</div>
+        <div class="to-impact">Потеря X3D-преимущества</div>
+        <p class="to-detail">На низких разрешениях 9800X3D вырывается вперёд. Если вы играете в 1080p на 360 Гц — эта сборка не для вас.</p>
+      </div>
+      <div class="to-card">
+        <div class="to-scene">RTS / MMO / Симуляторы</div>
+        <div class="to-impact">CPU-bound жанры страдают</div>
+        <p class="to-detail">Factorio, RimWorld, MSFS — 3D V-Cache даёт 15–25% преимущества, которое 5080 не компенсирует.</p>
+      </div>
+      <div class="to-card">
+        <div class="to-scene">Стриминг + Игры</div>
+        <div class="to-impact">Нет iGPU для QuickSync</div>
+        <p class="to-detail">Для стриминга лучше Intel QuickSync или выделенный streaming-PC. Это не недостаток — это не та задача.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       S8: EXCLUSIONS (58–63s)
+       ═══════════════════════════════════════════════════════ -->
+  <div class="scene" id="s8">
+    <div class="sec-header">
+      <span class="sec-index">SYS/08</span>
+      <span class="sec-title">Когда не подходит</span>
+      <span class="sec-hr"></span>
+    </div>
+    <div class="exclude-list">
+      <div class="exclude-item">
+        <span class="ei-mark">[X]</span>
+        <span class="ei-text">Вы играете в <strong>1080p на 240+ Гц</strong> — здесь X3D даёт ощутимый прирост, а 5080 избыточна</span>
+      </div>
+      <div class="exclude-item">
+        <span class="ei-mark">[X]</span>
+        <span class="ei-text">Ваши основные игры — <strong>CPU-тяжёлые симуляторы и стратегии</strong> (Factorio, Stellaris, MSFS)</span>
+      </div>
+      <div class="exclude-item">
+        <span class="ei-mark">[X]</span>
+        <span class="ei-text">Вам нужен ПК для <strong>стриминга с одного компьютера</strong> — другой набор компромиссов</span>
+      </div>
+      <div class="exclude-item">
+        <span class="ei-mark">[X]</span>
+        <span class="ei-text">Вы готовы ждать <strong>следующего поколения GPU</strong> — через полгода расклад изменится</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       S9: OPERATOR PROFILE (63–70s)
+       ═══════════════════════════════════════════════════════ -->
+  <div class="scene" id="s9">
+    <div class="sec-header">
+      <span class="sec-index">SYS/09</span>
+      <span class="sec-title">Портрет оператора</span>
+      <span class="sec-hr"></span>
+    </div>
+    <div class="op-block">
+      <div class="op-label">Если вы узнаёте себя — эта архитектура для вас</div>
+      <p class="op-text">
+        Вы играете в <strong>1440p на ультрах</strong> и хотите стабильные 90–140 fps в ААА-проектах. Вы понимаете, что <strong>видеокарта важнее процессора</strong> в этом разрешении. Вы цените <strong>тишину, холод и рациональный выбор</strong>.
+      </p>
+    </div>
+    <div class="footer-data">
+      <span class="fd-left">ИгроЛаба · pekaboyare.ru</span>
+      <span class="fd-right">RATIONAL FLAGSHIP 1440p · REV 2.0</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       RING CLOSE — Title return (67s)
+       ═══════════════════════════════════════════════════════ -->
+  <div class="scene ring-title" id="s-ring">
+    <div class="title-block" style="text-align:center;">
+      <div class="title-bracket">Рациональный флагман 1440p</div>
+      <h1 class="title-main">Рациональный<br><span>флагман</span> 1440p</h1>
+      <div class="title-data" style="margin-top:24px;">
+        <div class="title-datum">
+          <span class="td-val">Ryzen 7 9700X</span>
+          <span class="td-lbl">Процессор</span>
+        </div>
+        <div class="title-divider"></div>
+        <div class="title-datum">
+          <span class="td-val">GeForce RTX 5080</span>
+          <span class="td-lbl">Видеокарта</span>
+        </div>
+        <div class="title-divider"></div>
+        <div class="title-datum">
+          <span class="td-val">~250 000 ₽</span>
+          <span class="td-lbl">Бюджет</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Overlay for transitions -->
+  <div class="overlay" id="overlay"></div>
+  <!-- Scanline texture -->
+  <div class="scanlines"></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     TELEMETRY CONTROLS
+     ═══════════════════════════════════════════════════════ -->
+<div class="controls" id="controls">
+  <button id="btn-play">▶ Play</button>
+  <button id="btn-pause">⏸ Pause</button>
+  <div class="progress-wrap" id="progressWrap">
+    <div class="progress-fill" id="progress"></div>
+  </div>
+  <span class="timecode" id="timecode">0:00 / 1:10</span>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+<script>
+(function(){
+  var TOTAL = 70;
+  var scenes = ['s0','s1','s2','s3','s4','s5','s6','s7','s8','s9','s-ring'];
+  var sceneStarts = {s0:0,s1:6,s2:12,s3:18,s4:30,s5:37,s6:43,s7:52,s8:58,s9:63,'s-ring':67};
+
+  // Build scene markers
+  var pw = document.getElementById('progressWrap');
+  Object.entries(sceneStarts).forEach(function(e){
+    var id = e[0], t = e[1];
+    if(id === 's-ring') return;
+    var m = document.createElement('div');
+    m.className = 'scene-marker';
+    m.style.left = (t/TOTAL*100)+'%';
+    m.dataset.scene = id;
+    pw.appendChild(m);
+  });
+
+  var tl = gsap.timeline({paused:true});
+  var O = '#overlay';
+
+  /* ═══════════════════════════════════════════════════════
+     XFADE — static burst transition (mechanical, not soft)
+     ═══════════════════════════════════════════════════════ */
+  function xfade(from, to, at, dur){
+    dur = dur || 0.25;
+    // Static burst on stage
+    tl.to('#stage', {filter:'brightness(2.0) contrast(2.5)', duration:dur*0.3, ease:'power4.in'}, at);
+    tl.to('#stage', {filter:'brightness(1) contrast(1)', duration:dur*0.3, ease:'power2.out'}, at+dur*0.35);
+    // Overlay snap — hard cut feel
+    tl.to(O, {opacity:1, duration:dur*0.4, ease:'steps(1)'}, at);
+    tl.set('#'+from, {display:'none'}, at+dur);
+    tl.set('#'+to, {display:'flex'}, at+dur);
+    tl.to(O, {opacity:0, duration:dur*0.5, ease:'power3.out'}, at+dur);
+  }
+
+  /* Typewriter reveal — clipPath sweep for text blocks */
+  function typewriter(sel, atTime, dur){
+    dur = dur || 0.6;
+    tl.from(sel, {clipPath:'inset(0 100% 0 0)', duration:dur, ease:'steps(8)'}, atTime);
+  }
+
+  /* Data pop — scale snap for isolated values */
+  function dataPop(sel, atTime, dur){
+    dur = dur || 0.35;
+    tl.from(sel, {scale:0.6, opacity:0, duration:dur, ease:'back.out(1.7)'}, atTime);
+  }
+
+  /* Hard snap reveal — y-shift with crisp ease */
+  function hardReveal(sel, atTime, dir, dur){
+    dir = dir || 'up'; dur = dur || 0.4;
+    var dist = dir === 'up' ? 40 : dir === 'down' ? -40 : dir === 'left' ? 60 : -60;
+    var prop = (dir === 'up' || dir === 'down') ? 'y' : 'x';
+    var from = {};
+    from[prop] = dist; from.opacity = 0;
+    tl.from(sel, Object.assign(from, {duration:dur, ease:'power4.out'}), atTime);
+  }
+
+  /* Counter — parses number, counts up */
+  function countUp(sel, atTime, dur){
+    dur = dur || 0.6;
+    var el = document.querySelector(sel);
+    if(!el) return;
+    var text = el.textContent.trim();
+    var m = text.match(/^([^\d]*?)([\d\s]+)([^\d]*)$/);
+    if(!m) return;
+    var prefix = m[1], target = parseInt(m[2].replace(/\s/g,'')), suffix = m[3];
+    var obj = {val: 0};
+    el.textContent = prefix + '0' + suffix;
+    tl.to(obj, {val:target, duration:dur, ease:'power3.out',
+      onUpdate:function(){ el.textContent = prefix + Math.round(obj.val).toLocaleString('ru') + suffix; }
+    }, atTime);
+  }
+
+  // Init — all scenes hidden
+  tl.set('.scene', {display:'none'}, 0);
+  tl.set('#s0', {display:'flex'}, 0);
+
+  /* ═══════════════════════════════════════════════════════
+     S0: TITLE — mechanical entrance (0–6s)
+     ═══════════════════════════════════════════════════════ */
+  // Crosshair line snaps in
+  tl.from('#s0 .cs-line', {scaleX:0, transformOrigin:'50% 50%', duration:0.5, ease:'power4.inOut'}, 0.2);
+  // Coord data — typewriter reveal
+  typewriter('#s0 .coords', 0.5, 0.5);
+  typewriter('#s0 .coords-right', 0.7, 0.4);
+  // Title bracket — flickers in
+  tl.from('#s0 .title-bracket', {opacity:0, y:-10, duration:0.4, ease:'power3.out'}, 1.0);
+  // Main title — hard snap scale
+  tl.from('#s0 .title-main', {scale:0.85, opacity:0, duration:0.8, ease:'expo.out'}, 1.2);
+  // Data row — stagger from bottom
+  tl.from('#s0 .title-datum', {y:25, opacity:0, duration:0.4, stagger:0.1, ease:'power3.out'}, 2.2);
+  tl.from('#s0 .title-divider', {scaleY:0, transformOrigin:'50% 50%', duration:0.4, stagger:0.1, ease:'power3.out'}, 2.2);
+  // Phosphor glow pulse on main title
+  tl.to('#s0 .title-main', {textShadow:'0 0 40px rgba(234,128,0,0.25),0 0 80px rgba(234,128,0,0.08)', duration:0.5, ease:'power2.out'}, 3.5);
+  tl.to('#s0 .title-main', {textShadow:'0 0 30px rgba(234,234,234,0.08),0 0 60px rgba(234,234,234,0.03)', duration:0.5, ease:'power2.in'}, 4.0);
+
+  /* ═══════════════════════════════════════════════════════
+     S1: MISSION — data grid reveal (6–12s)
+     ═══════════════════════════════════════════════════════ */
+  xfade('s0','s1',6);
+  hardReveal('#s1 .sec-header', 6.5, 'up', 0.4);
+  // Mission items stagger as typewriter reveals
+  tl.from('#s1 .mission-item:nth-child(1)', {clipPath:'inset(0 100% 0 0)', duration:0.4, ease:'steps(6)'}, 7.0);
+  tl.from('#s1 .mission-item:nth-child(2)', {clipPath:'inset(0 100% 0 0)', duration:0.4, ease:'steps(6)'}, 7.4);
+  tl.from('#s1 .mission-item:nth-child(3)', {clipPath:'inset(0 100% 0 0)', duration:0.4, ease:'steps(6)'}, 7.8);
+  tl.from('#s1 .mission-item:nth-child(4)', {clipPath:'inset(0 100% 0 0)', duration:0.4, ease:'steps(6)'}, 8.2);
+
+  /* ═══════════════════════════════════════════════════════
+     S2: CONSTRAINTS — quadrant data pop (12–18s)
+     ═══════════════════════════════════════════════════════ */
+  xfade('s1','s2',12);
+  hardReveal('#s2 .sec-header', 12.5, 'up', 0.4);
+  // Constraints pop in sequence
+  tl.from('#s2 .constraint-cell:nth-child(1)', {scale:0.7, opacity:0, duration:0.45, ease:'back.out(1.8)'}, 13.0);
+  tl.from('#s2 .constraint-cell:nth-child(2)', {scale:0.7, opacity:0, duration:0.45, ease:'back.out(1.8)'}, 13.2);
+  tl.from('#s2 .constraint-cell:nth-child(3)', {scale:0.7, opacity:0, duration:0.45, ease:'back.out(1.8)'}, 13.4);
+  tl.from('#s2 .constraint-cell:nth-child(4)', {scale:0.7, opacity:0, duration:0.45, ease:'back.out(1.8)'}, 13.6);
+  // Budget counter
+  countUp('#s2 .constraint-cell:nth-child(1) .cc-value', 13.3, 0.7);
+  // Accent flash on each
+  tl.to('#s2 .constraint-cell:nth-child(1)', {borderColor:'var(--accent)', duration:0.3, ease:'power2.out'}, 14.0);
+  tl.to('#s2 .constraint-cell:nth-child(1)', {borderColor:'transparent', duration:0.3, ease:'power2.in'}, 14.6);
+  tl.to('#s2 .constraint-cell:nth-child(2)', {borderColor:'var(--accent)', duration:0.3, ease:'power2.out'}, 14.2);
+  tl.to('#s2 .constraint-cell:nth-child(2)', {borderColor:'transparent', duration:0.3, ease:'power2.in'}, 14.8);
+  tl.to('#s2 .constraint-cell:nth-child(3)', {borderColor:'var(--accent)', duration:0.3, ease:'power2.out'}, 14.4);
+  tl.to('#s2 .constraint-cell:nth-child(3)', {borderColor:'transparent', duration:0.3, ease:'power2.in'}, 15.0);
+  tl.to('#s2 .constraint-cell:nth-child(4)', {borderColor:'var(--accent)', duration:0.3, ease:'power2.out'}, 14.6);
+  tl.to('#s2 .constraint-cell:nth-child(4)', {borderColor:'transparent', duration:0.3, ease:'power2.in'}, 15.2);
+
+  /* ═══════════════════════════════════════════════════════
+     S3: ARCHITECTURE — HERO MOMENT (18–30s)
+     ═══════════════════════════════════════════════════════ */
+  xfade('s2','s3',18, 0.22);
+  hardReveal('#s3 .sec-header', 18.5, 'up', 0.5);
+  // Cards collide from sides — aggressive
+  tl.from('#s3 .arch-card.rejected', {x:-300, opacity:0, duration:0.7, ease:'power4.out'}, 19.0);
+  tl.from('#s3 .arch-card.selected', {x:300, opacity:0, duration:0.7, ease:'power4.out'}, 19.0);
+  // VS pops
+  tl.from('#s3 .arch-vs-col', {scale:0, opacity:0, duration:0.4, ease:'back.out(2.5)'}, 19.7);
+  // Selected border accent flash
+  tl.to('#s3 .arch-card.selected', {borderLeftColor:'var(--accent)', duration:0.4, ease:'power2.out'}, 20.3);
+  // Insight block — typewriter reveal
+  tl.from('#insightBlock', {clipPath:'inset(0 100% 0 0)', duration:0.8, ease:'steps(10)'}, 21.0);
+  dataPop('#s3 .ib-delta', 21.3, 0.45);
+  hardReveal('#s3 .ib-body', 21.8, 'up', 0.5);
+
+  /* ═══════════════════════════════════════════════════════
+     S4: PRIMARY DECISIONS — slide up stagger (30–37s)
+     ═══════════════════════════════════════════════════════ */
+  xfade('s3','s4',30);
+  hardReveal('#s4 .sec-header', 30.5, 'up', 0.4);
+  tl.from('#s4 .dec-card.cpu', {y:60, opacity:0, duration:0.55, ease:'power4.out'}, 31.0);
+  tl.from('#s4 .dec-card.gpu', {y:60, opacity:0, duration:0.55, ease:'power4.out'}, 31.3);
+  // Metric values pop
+  tl.from('#s4 .dcm-val', {scale:0.5, opacity:0, duration:0.35, stagger:0.06, ease:'back.out(1.7)'}, 32.2);
+  // Counters
+  countUp('#s4 .dec-card.cpu .dc-met:nth-child(2) .dcm-val', 32.4, 0.5);
+  countUp('#s4 .dec-card.gpu .dc-met:nth-child(2) .dcm-val', 32.6, 0.5);
+
+  /* ═══════════════════════════════════════════════════════
+     S5: SUBSYSTEMS — cascade from right (37–43s)
+     ═══════════════════════════════════════════════════════ */
+  xfade('s4','s5',37);
+  hardReveal('#s5 .sec-header', 37.5, 'up', 0.4);
+  tl.from('#s5 .comp-cell:nth-child(1)', {x:60, opacity:0, duration:0.4, ease:'power4.out'}, 38.0);
+  tl.from('#s5 .comp-cell:nth-child(2)', {x:60, opacity:0, duration:0.4, ease:'power4.out'}, 38.3);
+  tl.from('#s5 .comp-cell:nth-child(3)', {x:60, opacity:0, duration:0.4, ease:'power4.out'}, 38.6);
+  tl.from('#s5 .comp-cell:nth-child(4)', {x:60, opacity:0, duration:0.4, ease:'power4.out'}, 38.9);
+
+  /* ═══════════════════════════════════════════════════════
+     S6: TELEMETRY — bars animate, stats slide in (43–52s)
+     ═══════════════════════════════════════════════════════ */
+  xfade('s5','s6',43);
+  hardReveal('#s6 .sec-header', 43.5, 'up', 0.4);
+  // Game names typewriter in
+  tl.from('#s6 .perf-game', {clipPath:'inset(0 100% 0 0)', duration:0.35, stagger:0.07, ease:'steps(5)'}, 44.0);
+  // Bars snap to width (mechanical, not smooth)
+  tl.to('#s6 .perf-fill:nth-of-type(1)', {width:'68%', duration:0.5, ease:'power4.out'}, 44.8);
+  tl.to('#s6 .perf-fill:nth-of-type(2)', {width:'64%', duration:0.45, ease:'power4.out'}, 45.0);
+  tl.to('#s6 .perf-fill:nth-of-type(3)', {width:'86%', duration:0.4, ease:'power4.out'}, 45.2);
+  tl.to('#s6 .perf-fill:nth-of-type(4)', {width:'92%', duration:0.4, ease:'power4.out'}, 45.4);
+  tl.to('#s6 .perf-fill:nth-of-type(5)', {width:'72%', duration:0.45, ease:'power4.out'}, 45.6);
+  // FPS values pop at bar end
+  dataPop('#s6 .perf-row:nth-child(1) .perf-val', 45.0, 0.3);
+  dataPop('#s6 .perf-row:nth-child(2) .perf-val', 45.2, 0.3);
+  dataPop('#s6 .perf-row:nth-child(3) .perf-val', 45.4, 0.3);
+  dataPop('#s6 .perf-row:nth-child(4) .perf-val', 45.6, 0.3);
+  dataPop('#s6 .perf-row:nth-child(5) .perf-val', 45.8, 0.3);
+  // FPS counters
+  countUp('#s6 .perf-row:nth-child(1) .perf-val', 45.0, 0.4);
+  countUp('#s6 .perf-row:nth-child(2) .perf-val', 45.2, 0.4);
+  countUp('#s6 .perf-row:nth-child(3) .perf-val', 45.4, 0.4);
+  countUp('#s6 .perf-row:nth-child(4) .perf-val', 45.6, 0.4);
+  countUp('#s6 .perf-row:nth-child(5) .perf-val', 45.8, 0.4);
+  // Stats slide in from right
+  tl.from('#s6 .ts-stat:nth-child(1)', {x:50, opacity:0, duration:0.4, ease:'power4.out'}, 46.8);
+  tl.from('#s6 .ts-stat:nth-child(2)', {x:50, opacity:0, duration:0.4, ease:'power4.out'}, 47.2);
+  tl.from('#s6 .ts-stat:nth-child(3)', {x:50, opacity:0, duration:0.4, ease:'power4.out'}, 47.6);
+  countUp('#s6 .ts-stat:nth-child(3) .ts-val', 47.8, 0.5);
+
+  /* ═══════════════════════════════════════════════════════
+     S7: LIMITS — tradeoff stack (52–58s)
+     ═══════════════════════════════════════════════════════ */
+  xfade('s6','s7',52);
+  hardReveal('#s7 .sec-header', 52.5, 'up', 0.4);
+  tl.from('#s7 .to-card:nth-child(1)', {y:40, opacity:0, duration:0.4, ease:'power4.out'}, 53.0);
+  tl.from('#s7 .to-card:nth-child(2)', {y:40, opacity:0, duration:0.4, ease:'power4.out'}, 53.4);
+  tl.from('#s7 .to-card:nth-child(3)', {y:40, opacity:0, duration:0.4, ease:'power4.out'}, 53.8);
+
+  /* ═══════════════════════════════════════════════════════
+     S8: EXCLUSIONS — checklist sweep (58–63s)
+     ═══════════════════════════════════════════════════════ */
+  xfade('s7','s8',58);
+  hardReveal('#s8 .sec-header', 58.5, 'up', 0.4);
+  tl.from('#s8 .exclude-item:nth-child(1)', {x:-20, opacity:0, duration:0.3, ease:'power4.out'}, 59.0);
+  tl.from('#s8 .exclude-item:nth-child(2)', {x:-20, opacity:0, duration:0.3, ease:'power4.out'}, 59.3);
+  tl.from('#s8 .exclude-item:nth-child(3)', {x:-20, opacity:0, duration:0.3, ease:'power4.out'}, 59.6);
+  tl.from('#s8 .exclude-item:nth-child(4)', {x:-20, opacity:0, duration:0.3, ease:'power4.out'}, 59.9);
+  // [X] marks snap red
+  tl.to('#s8 .ei-mark:nth-child(1)', {color:'var(--red)', duration:0.2, ease:'power2.out'}, 59.5);
+  tl.to('#s8 .ei-mark:nth-child(2)', {color:'var(--red)', duration:0.2, ease:'power2.out'}, 59.8);
+  tl.to('#s8 .ei-mark:nth-child(3)', {color:'var(--red)', duration:0.2, ease:'power2.out'}, 60.1);
+  tl.to('#s8 .ei-mark:nth-child(4)', {color:'var(--red)', duration:0.2, ease:'power2.out'}, 60.4);
+
+  /* ═══════════════════════════════════════════════════════
+     S9: OPERATOR PROFILE (63–70s)
+     ═══════════════════════════════════════════════════════ */
+  xfade('s8','s9',63);
+  hardReveal('#s9 .sec-header', 63.5, 'up', 0.4);
+  tl.from('#s9 .op-block', {opacity:0, scale:0.96, duration:0.6, ease:'power3.out'}, 64.0);
+  // Operator text — typewriter reveal
+  typewriter('#s9 .op-text', 64.6, 1.2);
+  tl.from('#s9 .footer-data', {y:15, opacity:0, duration:0.4, ease:'power2.out'}, 64.5);
+
+  /* ═══════════════════════════════════════════════════════
+     RING CLOSE — title returns (67s)
+     ═══════════════════════════════════════════════════════ */
+  xfade('s9','s-ring',67);
+  tl.from('#s-ring .title-bracket', {opacity:0, y:-10, duration:0.4, ease:'power3.out'}, 67.5);
+  tl.from('#s-ring .title-main', {scale:0.9, opacity:0, duration:0.7, ease:'expo.out'}, 67.6);
+  tl.from('#s-ring .title-datum', {y:15, opacity:0, duration:0.35, stagger:0.08, ease:'power3.out'}, 68.2);
+  tl.from('#s-ring .title-divider', {scaleY:0, duration:0.35, stagger:0.08, ease:'power3.out'}, 68.2);
+
+  // Final fade to black — CRT power-off
+  tl.to(O, {opacity:1, duration:0.5, ease:'power4.in'}, 69.0);
+  tl.to('#stage', {filter:'brightness(0) contrast(0.1)', duration:0.4, ease:'power4.in'}, 69.5);
+
+  /* ═══════════════════════════════════════════════════════
+     CONTROLS
+     ═══════════════════════════════════════════════════════ */
+  var btnPlay = document.getElementById('btn-play');
+  var btnPause = document.getElementById('btn-pause');
+  var progress = document.getElementById('progress');
+  var timecode = document.getElementById('timecode');
+  var markers = document.querySelectorAll('.scene-marker');
+  var playing = false, rafId;
+
+  function fmt(t){
+    var m = Math.floor(t/60), s = Math.floor(t%60);
+    return m+':'+String(s).padStart(2,'0');
+  }
+
+  function updateUI(){
+    var t = tl.time();
+    progress.style.width = (t/TOTAL*100)+'%';
+    timecode.textContent = fmt(t)+' / '+fmt(TOTAL);
+    markers.forEach(function(m){
+      var st = sceneStarts[m.dataset.scene];
+      m.classList.toggle('passed', t >= st);
+    });
+  }
+
+  function tick(){
+    updateUI();
+    if(tl.time() >= TOTAL){ pause(); return; }
+    rafId = requestAnimationFrame(tick);
+  }
+
+  function play(){
+    if(playing) return;
+    playing = true;
+    btnPlay.classList.add('active');
+    if(tl.time() >= TOTAL) tl.seek(0);
+    tl.play();
+    rafId = requestAnimationFrame(tick);
+  }
+
+  function pause(){
+    playing = false;
+    btnPlay.classList.remove('active');
+    tl.pause();
+    if(rafId) cancelAnimationFrame(rafId);
+    updateUI();
+  }
+
+  btnPlay.addEventListener('click', play);
+  btnPause.addEventListener('click', pause);
+
+  document.addEventListener('keydown', function(e){
+    if(e.code === 'Space'){ e.preventDefault(); playing ? pause() : play(); }
+    if(e.code === 'ArrowRight'){ pause(); tl.seek(Math.min(tl.time()+1, TOTAL)); updateUI(); }
+    if(e.code === 'ArrowLeft'){ pause(); tl.seek(Math.max(tl.time()-1, 0)); updateUI(); }
+    if(e.code === 'KeyR'){ pause(); tl.seek(0); updateUI(); }
+  });
+
+  function resize(){
+    var s = document.getElementById('stage');
+    var vw = window.innerWidth, vh = window.innerHeight;
+    var scale = Math.min(vw/1920, vh/1080);
+    s.style.transform = 'scale('+scale+')';
+    s.style.marginLeft = ((vw - 1920*scale)/2)+'px';
+    s.style.marginTop = ((vh - 1080*scale)/2)+'px';
+  }
+  window.addEventListener('resize', resize);
+  resize();
+  updateUI();
+})();
+</script>
+</body>
+</html>
